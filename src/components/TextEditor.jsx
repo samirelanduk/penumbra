@@ -1,8 +1,8 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 
-const TextEditor = () => {
+const TextEditor = props => {
 
-  const [text, setText] = useState("");
+  const { text, setText } = props;
 
   return (
     <div className="flex-grow">
@@ -16,7 +16,8 @@ const TextEditor = () => {
 };
 
 TextEditor.propTypes = {
-  
+  text: PropTypes.string.isRequired,
+  setText: PropTypes.func.isRequired
 };
 
 export default TextEditor;
