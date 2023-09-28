@@ -20,6 +20,7 @@ export default function App() {
     <div className={`${mulish.variable}`}>
       <Head>
         <link rel="icon" href="/favicon.svg" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <div className="h-screen flex flex-col font-sans">
         <TopRow />
