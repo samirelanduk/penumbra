@@ -9,6 +9,12 @@ const TextEditor = props => {
   
   useEffect(() => {
     ref.current.focus();
+    const onUnload = e => {
+      e.preventDefault();
+      e.returnValue = "";
+   }
+    window.addEventListener("beforeunload", onUnload);
+    return () => window.removeEventListener("beforeunload", onUnload);
   }, []);
 
   return (
