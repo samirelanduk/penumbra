@@ -32,7 +32,7 @@ export default function App() {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
       </Head>
-      <div className="h-screen flex flex-col font-sans">
+      <div className="h-screen flex flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200">
         <TopRow />
         <TextEditor text={text} setText={setText} />
         <BottomRow text={text} />
