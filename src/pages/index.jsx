@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <div className="h-screen flex flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200">
-      <TopRow />
+      <TopRow  setText={setText} />
       <TextEditor text={text} setText={setText} />
       <BottomRow text={text} />
     </div>
