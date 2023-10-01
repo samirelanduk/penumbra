@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 
 const BottomRow = props => {
 
-  const { text } = props;
+  const { document } = props;
 
+  const text = document ? document.text : "";
   const charCount = text.length;
 
   const words = text.match(/\b\w+\b/g);
@@ -19,7 +20,7 @@ const BottomRow = props => {
 };
 
 BottomRow.propTypes = {
-  text: PropTypes.string.isRequired
+  document: PropTypes.object
 };
 
 export default BottomRow;
