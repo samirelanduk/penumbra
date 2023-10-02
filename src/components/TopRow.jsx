@@ -44,6 +44,11 @@ const TopRow = props => {
     setCurrentFileHandle(fileHandle);
   }
 
+  const closeClicked = () => {
+    setDocument(null);
+    setCurrentFileHandle(null);
+  }
+
   const canSaveAs = document && document.text.length > 0;
 
   return (
@@ -52,6 +57,7 @@ const TopRow = props => {
       <div onClick={openClicked} className="cursor-pointer absolute right-6">Open</div>
       <div onClick={saveClicked} className={`cursor-pointer absolute right-24 ${currentFileHandle ? "" : "opacity-30 pointer-events-none"}`}>Save</div>
       <div onClick={saveAsClicked} className={`cursor-pointer absolute right-44 ${canSaveAs ? "" : "opacity-30 pointer-events-none"}`}>Save As</div>
+      <div onClick={closeClicked} className={`cursor-pointer absolute right-72 ${document ? "" : "opacity-30 pointer-events-none"}`}>Close</div>
 
     </div>
   );
