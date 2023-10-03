@@ -6,6 +6,7 @@ const Menu = props => {
   const { document, setDocument } = props;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [control, setControl] = useState("Ctrl");
   const [currentFileHandle, setCurrentFileHandle] = useState(null);
   const ref = useRef(null);
 
@@ -19,10 +20,33 @@ const Menu = props => {
     return () => window.removeEventListener("click", onClick);
   }, []);
 
+  useEffect(() => {
+    const isMac = navigator.userAgent.includes("Mac");
+    setControl(isMac ? "⌘" : "Ctrl");
+  })
+
   const canOpen = true;
   const canSave = Boolean(currentFileHandle);
   const canSaveAs = Boolean(document) && document.text.length > 0;
   const canClose = Boolean(currentFileHandle);
+
+  useEffect(() => {
+    const onKeyDown = e => {
+      if (e.key === "o" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        if (canOpen) openClicked();
+      } else if (e.key === "s" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        if (e.shiftKey) {
+          if (canSaveAs) saveAsClicked();
+        } else {
+          if (canSave) saveClicked();
+        }
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [currentFileHandle, document, canOpen, canSave, canSaveAs]);
 
   const openClicked = async () => {
     let fileHandle;
@@ -70,9 +94,10 @@ const Menu = props => {
     setIsOpen(false);
   }
 
-  const optionClass = "py-2 px-6 text-slate-600 cursor-pointer hover:bg-slate-100";
+  const optionClass = "py-2 px-6 text-slate-600 cursor-pointer flex items-baseline justify-between hover:bg-slate-100";
   const disabledOptionClass = `${optionClass} opacity-30 pointer-events-none`;
   const circleClass = "w-1.5 h-1.5 rounded-full bg-gray-500 dark:bg-gray-300";
+  const controlClass = "text-gray-400 text-xs";
 
   return (
     <div>
@@ -84,15 +109,15 @@ const Menu = props => {
         <div className={circleClass} />
         <div className={circleClass} />
       </div>
-      <div className={`absolute top-12 right-8 w-48 border shadow border-gray-200 py-2.5 bg-white rounded-lg transition-all dark:border-0 duration-500 ${isOpen ? "" : "opacity-0 pointer-events-none"}`}>
+      <div className={`absolute top-12 right-8 w-56 border shadow border-gray-200 py-2.5 bg-white rounded-lg transition-all dark:border-0 duration-500 ${isOpen ? "" : "opacity-0 pointer-events-none"}`}>
         <div className={canOpen ? optionClass : disabledOptionClass} onClick={openClicked}>
-          Open
+          Open <span className={controlClass}>{control} O</span>
         </div>
         <div className={canSave ? optionClass : disabledOptionClass} onClick={saveClicked}>
-          Save
+          Save <span className={controlClass}>{control} S</span>
         </div>
         <div className={canSaveAs ? optionClass : disabledOptionClass} onClick={saveAsClicked}>
-          Save As
+          Save As <span className={controlClass}>{control} ⇧ S</span>
         </div>
         <div className={canClose ? optionClass : disabledOptionClass} onClick={closeClicked}>
           Close
@@ -103,7 +128,8 @@ const Menu = props => {
 };
 
 Menu.propTypes = {
-  
+  document: PropTypes.object,
+  setDocument: PropTypes.func.isRequired
 };
 
 export default Menu;
