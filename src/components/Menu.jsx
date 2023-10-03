@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
+import { countWords } from "@/utils";
 
 const Menu = props => {
 
@@ -59,7 +60,12 @@ const Menu = props => {
     } catch { return }
     const fileData = await fileHandle.getFile();
     const contents = await fileData.text();
-    setDocument({text: contents, name: fileHandle.name});
+    setDocument({
+      text: contents,
+      name: fileHandle.name,
+      initialCharacterCount: contents.length,
+      initialWordCount: countWords(contents),
+    });
     setCurrentFileHandle(fileHandle);
     setIsOpen(false);
   }
@@ -68,7 +74,12 @@ const Menu = props => {
     const writable = await currentFileHandle.createWritable();
     await writable.write(document.text);
     await writable.close();
-    setDocument({...document, name: currentFileHandle.name});
+    setDocument({
+      ...document,
+      name: currentFileHandle.name,
+      initialCharacterCount: document.text.length,
+      initialWordCount: countWords(document.text),
+    });
     setIsOpen(false);
   }
 
@@ -83,7 +94,12 @@ const Menu = props => {
     const writable = await fileHandle.createWritable();
     await writable.write(document.text);
     await writable.close();
-    setDocument({...document, name: fileHandle.name});
+    setDocument({
+      ...document,
+      name: fileHandle.name,
+      initialCharacterCount: document.text.length,
+      initialWordCount: countWords(document.text),
+    });
     setCurrentFileHandle(fileHandle);
     setIsOpen(false);
   }
