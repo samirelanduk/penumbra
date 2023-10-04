@@ -13,11 +13,17 @@ const TextEditor = props => {
     ref.current.focus();
     const onUnload = e => {
       e.preventDefault();
+      if (!document) return;
+      if (document.name) {
+        if (document.text.length === document.initialCharacterCount) return;
+      } else {
+        if (!document.text) return;
+      }
       e.returnValue = "";
     }
     window.addEventListener("beforeunload", onUnload);
     return () => window.removeEventListener("beforeunload", onUnload);
-  }, []);
+  }, [document]);
 
   return (
     <div className="flex-grow">
