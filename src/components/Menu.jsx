@@ -41,7 +41,11 @@ const Menu = props => {
         if (e.shiftKey) {
           if (canSaveAs) saveAsClicked();
         } else {
-          if (canSave) saveClicked();
+          if (canSave) {
+            saveClicked();
+          } else if (canSaveAs) {
+            saveAsClicked();
+          }
         }
       }
     }
