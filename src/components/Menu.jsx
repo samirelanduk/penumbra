@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { countWords } from "@/utils";
+import { openFile, saveFile, saveFileAs } from "@/files";
 
 const Menu = props => {
 
@@ -13,9 +14,7 @@ const Menu = props => {
 
   useEffect(() => {
     const onClick = e => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setIsOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target)) setIsOpen(false);
     }
     window.addEventListener("click", onClick);
     return () => window.removeEventListener("click", onClick);
@@ -54,16 +53,7 @@ const Menu = props => {
   }, [currentFileHandle, document, canOpen, canSave, canSaveAs]);
 
   const openClicked = async () => {
-    let fileHandle;
-    try {
-      [fileHandle] = await window.showOpenFilePicker({
-        types: [{description: "Text", accept: {"text/*": [".txt", ".md"]}}],
-        excludeAcceptAllOption: true,
-        multiple: false,
-      });
-    } catch { return }
-    const fileData = await fileHandle.getFile();
-    const contents = await fileData.text();
+    const [contents, fileHandle] = await openFile();
     setDocument({
       text: contents,
       name: fileHandle.name,
@@ -75,9 +65,7 @@ const Menu = props => {
   }
 
   const saveClicked = async () => {
-    const writable = await currentFileHandle.createWritable();
-    await writable.write(document.text);
-    await writable.close();
+    await saveFile(currentFileHandle, document.text);
     setDocument({
       ...document,
       name: currentFileHandle.name,
@@ -88,16 +76,7 @@ const Menu = props => {
   }
 
   const saveAsClicked = async () => {
-    let fileHandle;
-    try {
-      fileHandle = await window.showSaveFilePicker({
-        types: [{description: "Text", accept: {"text/*": [".txt", ".md"]}}],
-        suggestedName: document.name || "Untitled.txt",
-      });
-    } catch { return }
-    const writable = await fileHandle.createWritable();
-    await writable.write(document.text);
-    await writable.close();
+    const fileHandle = await saveFileAs(document.name, document.text);
     setDocument({
       ...document,
       name: fileHandle.name,
