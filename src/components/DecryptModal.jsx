@@ -11,6 +11,7 @@ const DecryptModal = props => {
 
   const decryptClicked = async () => {
     const document = await decrypt(bytestring, password);
+    document.password = password;
     setDocument(document);
     setShow(false);
   }

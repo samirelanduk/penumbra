@@ -28,7 +28,9 @@ export const derivePasswordKey = async (password, salt) => {
 
 
 export const encryptDocument = async (document, key, iv) => {
-  const documentString = JSON.stringify(document);
+  const documentCopy = {...document};
+  delete documentCopy.password;
+  const documentString = JSON.stringify(documentCopy);
   const encoder = new TextEncoder();
   return await window.crypto.subtle.encrypt(
     {name: "AES-GCM", iv}, key, encoder.encode(documentString)

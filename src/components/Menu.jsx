@@ -4,6 +4,7 @@ import { countWords } from "@/utils";
 import { openFile, saveFile } from "@/files";
 import EncryptModal from "./EncryptModal";
 import DecryptModal from "./DecryptModal";
+import { encrypt } from "@/encryption";
 
 const Menu = props => {
 
@@ -65,7 +66,8 @@ const Menu = props => {
   }
 
   const saveClicked = async () => {
-    await saveFile(currentFileHandle, document.text);
+    const bytestring = await encrypt(document, document.password);
+    await saveFile(currentFileHandle, bytestring);
     setDocument({
       ...document,
       name: currentFileHandle.name,
