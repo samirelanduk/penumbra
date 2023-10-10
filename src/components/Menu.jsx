@@ -8,11 +8,10 @@ import { encrypt } from "@/encryption";
 
 const Menu = props => {
 
-  const { document, setDocument } = props;
+  const { document, setDocument, fileHandle, setFileHandle } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [control, setControl] = useState("Ctrl");
-  const [currentFileHandle, setCurrentFileHandle] = useState(null);
   const [showEncryptModal, setShowEncryptModal] = useState(false);
   const [encryptedBytestring, setEncryptedBytestring] = useState(null);
   const ref = useRef(null);
@@ -31,9 +30,9 @@ const Menu = props => {
   })
 
   const canOpen = true;
-  const canSave = Boolean(currentFileHandle);
+  const canSave = Boolean(fileHandle);
   const canSaveAs = Boolean(document) && document.text.length > 0;
-  const canClose = Boolean(currentFileHandle);
+  const canClose = Boolean(fileHandle);
 
   useEffect(() => {
     const onKeyDown = e => {
@@ -55,22 +54,22 @@ const Menu = props => {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [currentFileHandle, document, canOpen, canSave, canSaveAs]);
+  }, [fileHandle, document, canOpen, canSave, canSaveAs]);
 
   const openClicked = async () => {
     const [contents, fileHandle] = await openFile();
     if (!contents) return;
     setEncryptedBytestring(contents);
-    setCurrentFileHandle(fileHandle);
+    setFileHandle(fileHandle);
     setIsOpen(false);
   }
 
   const saveClicked = async () => {
     const bytestring = await encrypt(document, document.password);
-    await saveFile(currentFileHandle, bytestring);
+    await saveFile(fileHandle, bytestring);
     setDocument({
       ...document,
-      name: currentFileHandle.name,
+      name: fileHandle.name,
       initialCharacterCount: document.text.length,
       initialWordCount: countWords(document.text),
     });
@@ -83,7 +82,7 @@ const Menu = props => {
 
   const closeClicked = () => {
     setDocument(null);
-    setCurrentFileHandle(null);
+    setFileHandle(null);
     setIsOpen(false);
   }
 
@@ -116,7 +115,7 @@ const Menu = props => {
           Close
         </div>
       </div>
-      {showEncryptModal && <EncryptModal setShow={setShowEncryptModal} document={document} setDocument={setDocument} setCurrentFileHandle={setCurrentFileHandle} />}
+      {showEncryptModal && <EncryptModal setShow={setShowEncryptModal} document={document} setDocument={setDocument} setFileHandle={setFileHandle} />}
       {encryptedBytestring && <DecryptModal setShow={value => setEncryptedBytestring(!!value)} bytestring={encryptedBytestring} setDocument={setDocument} />}
     </div>
   );

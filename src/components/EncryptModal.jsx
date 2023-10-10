@@ -7,7 +7,7 @@ import { countWords } from "@/utils";
 
 const EncryptModal = props => {
 
-  const { setShow, document, setDocument, setCurrentFileHandle } = props;
+  const { setShow, document, setDocument, setFileHandle } = props;
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,10 +21,11 @@ const EncryptModal = props => {
     setDocument({
       ...document,
       name: fileHandle.name,
+      password,
       initialCharacterCount: document.text.length,
       initialWordCount: countWords(document.text),
     });
-    setCurrentFileHandle(fileHandle);
+    setFileHandle(fileHandle);
     setShow(false);
   }
 
@@ -67,7 +68,7 @@ EncryptModal.propTypes = {
   setShow: PropTypes.func.isRequired,
   document: PropTypes.object.isRequired,
   setDocument: PropTypes.func.isRequired,
-  setCurrentFileHandle: PropTypes.func.isRequired,
+  setFileHandle: PropTypes.func.isRequired,
 };
 
 export default EncryptModal;
