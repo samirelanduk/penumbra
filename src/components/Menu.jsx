@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { countWords } from "@/utils";
-import { openFile, saveFile, saveFileAs } from "@/files";
+import { openFile, saveFile } from "@/files";
 import EncryptModal from "./EncryptModal";
 import DecryptModal from "./DecryptModal";
 

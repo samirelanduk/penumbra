@@ -1,21 +1,8 @@
-function readFileAsArrayBuffer(file) {
-  return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-          resolve(reader.result);
-      };
-      reader.onerror = () => {
-          reject(new Error("Failed to read file"));
-      };
-      reader.readAsArrayBuffer(file);
-  });
-}
-
 export const openFile = async () => {
   /**
-   * Opens a file picker and returns the contents of the selected file. The
-   * second item in the returned array is the file handle, which can be used to
-   * save the file again later.
+   * Opens a file picker and returns the binary contents of the selected file
+   * as an ArrayBuffer. Also returns the file handle, which can be used to save
+   * the file again later.
    */
 
   let fileHandle;
@@ -25,15 +12,20 @@ export const openFile = async () => {
     });
   } catch { return [] }
   const fileData = await fileHandle.getFile();
-  const reader = new FileReader();
-  const contents = await readFileAsArrayBuffer(fileData);
-  return [contents, fileHandle];
+  return await new Promise(async (resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve([reader.result, fileHandle]);
+    };
+    reader.readAsArrayBuffer(fileData);
+  });
 }
 
-export const saveFileAs = async (name, contents) => {
+export const saveFileAs = async contents => {
   /**
    * Opens a file picker and saves the contents to the selected file. Returns
-   * the file handle, which can be used to save the file again later.
+   * the file handle, which can be used to save the file again later. Contents
+   * should be an Uint8Array.
    */
 
   let fileHandle;

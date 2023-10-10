@@ -16,7 +16,7 @@ const EncryptModal = props => {
 
   const encryptClicked = async () => {
     const bytestring = await encrypt(document, password);
-    const fileHandle = await saveFileAs(document.name, bytestring);
+    const fileHandle = await saveFileAs(bytestring);
     if (!fileHandle) return;
     setDocument({
       ...document,
