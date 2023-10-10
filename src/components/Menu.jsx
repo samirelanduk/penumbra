@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { countWords } from "@/utils";
 import { openFile, saveFile, saveFileAs } from "@/files";
+import EncryptModal from "./EncryptModal";
 
 const Menu = props => {
 
@@ -10,6 +11,7 @@ const Menu = props => {
   const [isOpen, setIsOpen] = useState(false);
   const [control, setControl] = useState("Ctrl");
   const [currentFileHandle, setCurrentFileHandle] = useState(null);
+  const [showEncryptModal, setShowEncryptModal] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -76,17 +78,8 @@ const Menu = props => {
     setIsOpen(false);
   }
 
-  const saveAsClicked = async () => {
-    const fileHandle = await saveFileAs(document.name, document.text);
-    if (!fileHandle) return;
-    setDocument({
-      ...document,
-      name: fileHandle.name,
-      initialCharacterCount: document.text.length,
-      initialWordCount: countWords(document.text),
-    });
-    setCurrentFileHandle(fileHandle);
-    setIsOpen(false);
+  const saveAsClicked = () => {
+    setShowEncryptModal(true);
   }
 
   const closeClicked = () => {
@@ -124,6 +117,7 @@ const Menu = props => {
           Close
         </div>
       </div>
+      {showEncryptModal && <EncryptModal setShow={setShowEncryptModal} document={document} setDocument={setDocument} setCurrentFileHandle={setCurrentFileHandle} />}
     </div>
   );
 };

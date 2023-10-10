@@ -27,8 +27,7 @@ export const saveFileAs = async (name, contents) => {
   let fileHandle;
   try {
     fileHandle = await window.showSaveFilePicker({
-      types: [{description: "Text", accept: {"text/*": [".txt", ".md"]}}],
-      suggestedName: document.name || "Untitled.txt",
+      suggestedName: document.name || "Untitled",
     });
   } catch { return }
   const writable = await fileHandle.createWritable();
