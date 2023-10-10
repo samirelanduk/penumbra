@@ -8,11 +8,21 @@ const DecryptModal = props => {
   const { filename, bytestring, setShow, setDocument } = props;
 
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const decryptClicked = async () => {
-    const document = await decrypt(bytestring, password);
+    let document;
+    try {
+      document = await decrypt(bytestring, password);
+    } catch (error) {
+      if (error.name === "OperationError") {
+        setError("Incorrect password");
+        return;
+      } else { throw error; }
+    }
     document.password = password;
     setDocument(document);
+    setError(null);
     setShow(false);
   }
 
@@ -25,6 +35,7 @@ const DecryptModal = props => {
         value={password}
         onChange={e => setPassword(e.target.value)}
       />
+      {error && <div>{error}</div>}
       <button onClick={decryptClicked}>Decrypt</button>
     </Modal>
   );
