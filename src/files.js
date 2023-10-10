@@ -21,6 +21,7 @@ export const openFile = async () => {
   });
 }
 
+
 export const saveFileAs = async contents => {
   /**
    * Opens a file picker and saves the contents to the selected file. Returns
@@ -39,6 +40,7 @@ export const saveFileAs = async contents => {
   await writable.close();
   return fileHandle;
 }
+
 
 export const saveFile = async (fileHandle, contents) => {
   /**

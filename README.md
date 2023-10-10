@@ -18,10 +18,11 @@
 
 ```javascript
 {
-    name: "mynotes.enc", // Blank unless opened/saved
-    password: "xxx", // Removed before encrypting/saving
     text: "Updated text which values below won't match.",
-    initialCharacterCount: 100,
-    initialWordCount: 25
+    name: "mynotes.enc", // Blank unless opened/saved
+    initialCharacterCount: 100, // Blank unless opened/saved
+    initialWordCount: 25 // Blank unless opened/saved
+    password: "xxx", // Removed before encrypting/saving
+    fileHandle: {...}, // Removed before encrypting/saving
 }
 ```

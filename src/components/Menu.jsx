@@ -8,12 +8,13 @@ import { encrypt } from "@/encryption";
 
 const Menu = props => {
 
-  const { document, setDocument, fileHandle, setFileHandle } = props;
+  const { document, setDocument } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [control, setControl] = useState("Ctrl");
   const [showEncryptModal, setShowEncryptModal] = useState(false);
   const [encryptedBytestring, setEncryptedBytestring] = useState(null);
+  const [openedFileHandle, setOpenedFileHandle] = useState(null);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -30,9 +31,9 @@ const Menu = props => {
   })
 
   const canOpen = true;
-  const canSave = Boolean(fileHandle);
+  const canSave = Boolean(document && document.fileHandle);
   const canSaveAs = Boolean(document) && document.text.length > 0;
-  const canClose = Boolean(fileHandle);
+  const canClose = Boolean(document && document.fileHandle);
 
   useEffect(() => {
     const onKeyDown = e => {
@@ -54,22 +55,27 @@ const Menu = props => {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [fileHandle, document, canOpen, canSave, canSaveAs]);
+  }, [document, canOpen, canSave, canSaveAs]);
 
   const openClicked = async () => {
     const [contents, fileHandle] = await openFile();
     if (!contents) return;
     setEncryptedBytestring(contents);
-    setFileHandle(fileHandle);
+    setOpenedFileHandle(fileHandle);
     setIsOpen(false);
+  }
+
+  const closeDecryptModal = () => {
+    setEncryptedBytestring(null);
+    setOpenedFileHandle(null);
   }
 
   const saveClicked = async () => {
     const bytestring = await encrypt(document, document.password);
-    await saveFile(fileHandle, bytestring);
+    await saveFile(document.fileHandle, bytestring);
     setDocument({
       ...document,
-      name: fileHandle.name,
+      name: document.fileHandle.name,
       initialCharacterCount: document.text.length,
       initialWordCount: countWords(document.text),
     });
@@ -82,7 +88,6 @@ const Menu = props => {
 
   const closeClicked = () => {
     setDocument(null);
-    setFileHandle(null);
     setIsOpen(false);
   }
 
@@ -115,8 +120,22 @@ const Menu = props => {
           Close
         </div>
       </div>
-      {showEncryptModal && <EncryptModal setShow={setShowEncryptModal} document={document} setDocument={setDocument} setFileHandle={setFileHandle} />}
-      {encryptedBytestring && <DecryptModal setShow={value => setEncryptedBytestring(!!value)} bytestring={encryptedBytestring} setDocument={setDocument} />}
+      {showEncryptModal && (
+        <EncryptModal
+          setShow={setShowEncryptModal}
+          document={document}
+          setDocument={setDocument}
+        />
+      )}
+      {!!encryptedBytestring && !!openedFileHandle && (
+        <DecryptModal
+          filename={openedFileHandle.name}
+          fileHandle={openedFileHandle}
+          setShow={value => setEncryptedBytestring(!!value)}
+          bytestring={encryptedBytestring}
+          setDocument={setDocument}
+        />
+      )}
     </div>
   );
 };

@@ -4,15 +4,12 @@ import Menu from "./Menu";
 
 const TopRow = props => {
 
-  const { document, setDocument, fileHandle, setFileHandle } = props;
+  const { document, setDocument } = props;
 
   return (
     <div className="w-full flex items-center justify-center px-6 h-12 relative">
       <div className="text-gray-500 text-sm">{document ? document.name : ""}</div>
-      <Menu
-        document={document} setDocument={setDocument}
-        fileHandle={fileHandle} setFileHandle={setFileHandle}
-      />
+      <Menu document={document} setDocument={setDocument} />
     </div>
   );
 };
@@ -20,8 +17,6 @@ const TopRow = props => {
 TopRow.propTypes = {
   document: PropTypes.object,
   setDocument: PropTypes.func.isRequired,
-  fileHandle: PropTypes.object,
-  setFileHandle: PropTypes.func.isRequired
 };
 
 export default TopRow;

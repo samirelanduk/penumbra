@@ -5,7 +5,7 @@ import { decrypt } from "@/encryption";
 
 const DecryptModal = props => {
 
-  const { filename, bytestring, setShow, setDocument } = props;
+  const { filename, bytestring, setShow, fileHandle, setDocument } = props;
 
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -21,11 +21,11 @@ const DecryptModal = props => {
       } else { throw error; }
     }
     document.password = password;
+    document.fileHandle = fileHandle;
     setDocument(document);
     setError(null);
     setShow(false);
   }
-
 
   return (
     <Modal>
@@ -43,7 +43,8 @@ const DecryptModal = props => {
 
 DecryptModal.propTypes = {
   filename: PropTypes.string.isRequired,
-  bytestring: PropTypes.instanceOf(Uint8Array).isRequired,
+  fileHandle: PropTypes.object.isRequired,
+  bytestring: PropTypes.instanceOf(ArrayBuffer).isRequired,
   setShow: PropTypes.func.isRequired,
 };
 
