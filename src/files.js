@@ -12,7 +12,7 @@ export const openFile = async () => {
       excludeAcceptAllOption: true,
       multiple: false,
     });
-  } catch { return }
+  } catch { return [] }
   const fileData = await fileHandle.getFile();
   const contents = await fileData.text();
   return [contents, fileHandle];

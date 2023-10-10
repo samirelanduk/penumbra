@@ -54,6 +54,7 @@ const Menu = props => {
 
   const openClicked = async () => {
     const [contents, fileHandle] = await openFile();
+    if (!contents) return;
     setDocument({
       text: contents,
       name: fileHandle.name,
@@ -77,6 +78,7 @@ const Menu = props => {
 
   const saveAsClicked = async () => {
     const fileHandle = await saveFileAs(document.name, document.text);
+    if (!fileHandle) return;
     setDocument({
       ...document,
       name: fileHandle.name,
