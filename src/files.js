@@ -1,3 +1,16 @@
+function readFileAsArrayBuffer(file) {
+  return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+          resolve(reader.result);
+      };
+      reader.onerror = () => {
+          reject(new Error("Failed to read file"));
+      };
+      reader.readAsArrayBuffer(file);
+  });
+}
+
 export const openFile = async () => {
   /**
    * Opens a file picker and returns the contents of the selected file. The
@@ -8,13 +21,12 @@ export const openFile = async () => {
   let fileHandle;
   try {
     [fileHandle] = await window.showOpenFilePicker({
-      types: [{description: "Text", accept: {"text/*": [".txt", ".md"]}}],
-      excludeAcceptAllOption: true,
       multiple: false,
     });
   } catch { return [] }
   const fileData = await fileHandle.getFile();
-  const contents = await fileData.text();
+  const reader = new FileReader();
+  const contents = await readFileAsArrayBuffer(fileData);
   return [contents, fileHandle];
 }
 

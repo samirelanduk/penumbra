@@ -79,7 +79,7 @@ export const decodeBytestringToEncryptedData = bytestring => {
 
 
 export const uint8Array32ToNumber = bytes => {
-  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const view = new DataView(bytes);
   return view.getUint32(0, true); 
 }
 
