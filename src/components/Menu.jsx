@@ -131,7 +131,7 @@ const Menu = props => {
         <DecryptModal
           filename={openedFileHandle.name}
           fileHandle={openedFileHandle}
-          setShow={value => setEncryptedBytestring(!!value)}
+          setShow={closeDecryptModal}
           bytestring={encryptedBytestring}
           setDocument={setDocument}
         />

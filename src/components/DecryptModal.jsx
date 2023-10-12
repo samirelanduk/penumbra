@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Modal from "./Modal";
 import { decrypt } from "@/encryption";
+import { countWords, makeDocument } from "@/utils";
 
 const DecryptModal = props => {
 
@@ -15,9 +16,9 @@ const DecryptModal = props => {
   useEffect(() => ref.current.focus(), []);
 
   const decryptClicked = async () => {
-    let document;
+    let document = makeDocument();
     try {
-      document = await decrypt(bytestring, password);
+      document = {...document, ...await decrypt(bytestring, password)};
     } catch (error) {
       if (error.name === "OperationError") {
         setError("Incorrect password");
@@ -26,6 +27,9 @@ const DecryptModal = props => {
     }
     document.password = password;
     document.fileHandle = fileHandle;
+    document.name = filename;
+    document.initialCharacterCount = document.text.length;
+    document.initialWordCount = countWords(document.text);
     setDocument(document);
     setError(null);
     setShow(false);

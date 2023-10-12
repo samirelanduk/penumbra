@@ -6,3 +6,19 @@ export const countWords = text => {
   const words = text.match(/\b\w+\b/g);
   return  words ? words.length : 0;
 }
+
+
+export const makeDocument = () => {
+  /**
+   * Returns a new document object with all fields.
+   */
+  
+  return {
+    text: "",
+    name: null,
+    initialCharacterCount: 0,
+    initialWordCount: 0,
+    password: null,
+    fileHandle: null
+  }
+}
