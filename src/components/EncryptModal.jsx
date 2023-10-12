@@ -4,20 +4,26 @@ import Modal from "./Modal";
 import { encrypt } from "@/encryption";
 import { saveFileAs } from "@/files";
 import { countWords } from "@/utils";
+import { ClipLoader } from "react-spinners";
 
 const EncryptModal = props => {
 
   const { setShow, document, setDocument } = props;
 
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const canEncrypt = Boolean(password) && password === confirmPassword;
 
   const encryptClicked = async () => {
+    setLoading(true);
     const bytestring = await encrypt(document, password);
     const fileHandle = await saveFileAs(bytestring);
-    if (!fileHandle) return;
+    if (!fileHandle) {
+      setLoading(false);
+      return;
+    }
     setDocument({
       ...document,
       name: fileHandle.name,
@@ -26,13 +32,14 @@ const EncryptModal = props => {
       initialCharacterCount: document.text.length,
       initialWordCount: countWords(document.text),
     });
-    setShow(false);
+    setLoading(false);
+    setTimeout(() => setShow(false), 100);
   }
 
   const width = "w-60";
   const labelClass = "text-sm mb-1";
   const inputClass = `${width} block appearance-none border rounded py-1.5 px-3 text-gray-700 mb-5 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-200`;
-  const buttonClass = "py-1 px-4 w-full text-sm rounded focus:outline-none focus:shadow-outline";
+  const buttonClass = "py-1 px-4 w-full text-sm flex items-center justify-center rounded focus:outline-none focus:shadow-outline";
   const encryptButtonClass = `${buttonClass} bg-orange-400 hover:bg-orange-500 text-white dark:bg-orange-800 dark:hover:bg-orange-700`;
   const cancelButtonClass = `${buttonClass} border-2 border-orange-400 hover:border-orange-500 text-orange-500 hover:text-orange-700 dark:border-orange-800 dark:text-orange-700 dark:hover:border-orange-700 dark:hover:text-orange-600`;
 
@@ -65,10 +72,10 @@ const EncryptModal = props => {
         <div className={`flex ${width} gap-4 justify-between`}>
           <button
             onClick={encryptClicked}
-            className={`${encryptButtonClass} ${canEncrypt ? "" : "opacity-50 pointer-events-none"}`}
+            className={`${encryptButtonClass} ${canEncrypt && !loading ? "" : "opacity-50 pointer-events-none"}`}
             disabled={!canEncrypt}
           >
-            Encrypt
+            {loading ? <ClipLoader color="white" size={18} speedMultiplier={2} /> : "Encrypt"}
           </button>
           <button onClick={() => setShow(false)} className={cancelButtonClass}>
             Cancel

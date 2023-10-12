@@ -11,7 +11,8 @@
   "dependencies": {
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-spinners": "^0.13.8"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",

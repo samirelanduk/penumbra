@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import Modal from "./Modal";
 import { decrypt } from "@/encryption";
 import { countWords, makeDocument } from "@/utils";
+import { ClipLoader } from "react-spinners";
 
 const DecryptModal = props => {
 
   const { filename, bytestring, setShow, fileHandle, setDocument } = props;
 
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
@@ -16,12 +18,14 @@ const DecryptModal = props => {
   useEffect(() => ref.current.focus(), []);
 
   const decryptClicked = async () => {
+    setLoading(true);
     let document = makeDocument();
     try {
       document = {...document, ...await decrypt(bytestring, password)};
     } catch (error) {
       if (error.name === "OperationError") {
         setError("Incorrect password");
+        setLoading(false);
         return;
       } else { throw error; }
     }
@@ -32,11 +36,12 @@ const DecryptModal = props => {
     document.initialWordCount = countWords(document.text);
     setDocument(document);
     setError(null);
-    setShow(false);
+    setLoading(false);
+    setTimeout(() => setShow(false), 100);
   }
 
   const width = "w-60";
-  const buttonClass = "py-1 px-4 w-full text-sm rounded focus:outline-none focus:shadow-outline";
+  const buttonClass = "py-1 px-4 w-full text-sm flex items-center justify-center rounded focus:outline-none focus:shadow-outline";
   const decryptButtonClass = `${buttonClass} bg-blue-400 hover:bg-blue-500 text-white dark:bg-blue-800 dark:hover:bg-blue-700`;
   const cancelButtonClass = `${buttonClass} border-2 border-blue-400 hover:border-blue-500 text-blue-500 hover:text-blue-700 dark:border-blue-800 dark:text-blue-700 dark:hover:border-blue-700 dark:hover:text-blue-600`;
 
@@ -61,9 +66,9 @@ const DecryptModal = props => {
         <div className={`flex ${width} gap-4 justify-between`}>
           <button
             onClick={decryptClicked}
-            className={decryptButtonClass}
+            className={`${decryptButtonClass} ${loading ? "pointer-events-none" : ""}`}
           >
-            Decrypt
+            {loading ? <ClipLoader color="white" size={18} speedMultiplier={2} /> : "Decrypt"}
           </button>
           <button onClick={() => setShow(false)} className={cancelButtonClass}>
             Cancel
