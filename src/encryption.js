@@ -92,15 +92,16 @@ export const encodeEncryptedDataAsBytestring = (encryptedData, salt, iv) => {
    * @returns {Uint8Array}
    */
 
+  const prefixBytes = new Uint8Array([0x70, 0x65, 0x6e, 0x75, 0x6d, 0x62, 0x72, 0x61]);
   const saltBytes = new Uint8Array(salt);
   const saltLengthBytes = numberToUint8Array32(saltBytes.length);
   const ivBytes = new Uint8Array(iv);
   const ivLengthBytes = numberToUint8Array32(ivBytes.length);
   const ciphertextBytes = new Uint8Array(encryptedData);
-  const cipherStart = 8 + saltBytes.length + 4 + ivBytes.length;
+  const cipherStart = 16 + saltBytes.length + 4 + ivBytes.length;
   const cipherStartBytes = numberToUint8Array32(cipherStart);
   const bytestring = new Uint8Array([
-    ...cipherStartBytes, ...saltLengthBytes, ...saltBytes,
+    ...prefixBytes, ...cipherStartBytes, ...saltLengthBytes, ...saltBytes,
     ...ivLengthBytes, ...ivBytes, ...ciphertextBytes
   ]);
   return bytestring
@@ -131,11 +132,11 @@ export const decodeBytestringToEncryptedData = bytestring => {
    * @returns {object}
    */
 
-  const cipherStart = uint8Array32ToNumber(bytestring.slice(0, 4));
-  const saltLength = uint8Array32ToNumber(bytestring.slice(4, 8));
-  const salt = bytestring.slice(8, 8 + saltLength);
-  const ivLength = uint8Array32ToNumber(bytestring.slice(8 + saltLength, 12 + saltLength));
-  const iv = bytestring.slice(12 + saltLength, 12 + saltLength + ivLength);
+  const cipherStart = uint8Array32ToNumber(bytestring.slice(8, 12));
+  const saltLength = uint8Array32ToNumber(bytestring.slice(12, 16));
+  const salt = bytestring.slice(16, 16 + saltLength);
+  const ivLength = uint8Array32ToNumber(bytestring.slice(16 + saltLength, 20 + saltLength));
+  const iv = bytestring.slice(20 + saltLength, 20 + saltLength + ivLength);
   const ciphertext = bytestring.slice(cipherStart);
   return { salt, iv, ciphertext };
 }
