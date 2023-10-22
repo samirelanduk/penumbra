@@ -5,6 +5,7 @@ import { openFile, saveFile } from "@/files";
 import EncryptModal from "./EncryptModal";
 import DecryptModal from "./DecryptModal";
 import { encrypt } from "@/encryption";
+import ErrorModal from "./ErrorModal";
 
 const Menu = props => {
 
@@ -15,6 +16,7 @@ const Menu = props => {
   const [showEncryptModal, setShowEncryptModal] = useState(false);
   const [encryptedBytestring, setEncryptedBytestring] = useState(null);
   const [openedFileHandle, setOpenedFileHandle] = useState(null);
+  const [error, setError] = useState("");
   const ref = useRef(null);
 
   useEffect(() => {
@@ -58,7 +60,12 @@ const Menu = props => {
   }, [document, canOpen, canSave, canSaveAs]);
 
   const openClicked = async () => {
-    const [contents, fileHandle] = await openFile();
+    let contents = null; let fileHandle = null;
+    try {
+      [contents, fileHandle] = await openFile();
+    } catch (err) {
+      setError(err.message);
+    }
     if (!contents) return;
     setEncryptedBytestring(contents);
     setOpenedFileHandle(fileHandle);
@@ -136,6 +143,7 @@ const Menu = props => {
           setDocument={setDocument}
         />
       )}
+      {error && <ErrorModal message={error} setShow={setError} />}
     </div>
   );
 };

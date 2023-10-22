@@ -12,10 +12,21 @@ export const openFile = async () => {
     });
   } catch { return [] }
   const fileData = await fileHandle.getFile();
-  return await new Promise(async (resolve) => {
+  const expectedPrefix = new Uint8Array([
+    0x70, 0x65, 0x6e, 0x75, 0x6d, 0x62, 0x72, 0x61
+  ]);
+  return await new Promise(async (resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
-      resolve([reader.result, fileHandle]);
+      const resultArray = new Uint8Array(reader.result);
+      const matchesPrefix = expectedPrefix.every(
+        (byte, index) => byte === resultArray[index]
+      );
+      if (matchesPrefix) {
+        resolve([reader.result, fileHandle]);
+      } else {
+        reject(new Error("File was not created by Penumbra."));
+      }
     };
     reader.readAsArrayBuffer(fileData);
   });
