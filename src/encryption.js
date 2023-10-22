@@ -118,17 +118,19 @@ export const decrypt = async (bytestring, password) => {
    * @returns {object}
    */
 
-  const { salt, iv, ciphertext } = decodeBytestringToEncryptedData(bytestring);
+  const uint8Array = new Uint8Array(bytestring);
+  const { salt, iv, ciphertext } = decodeBytestringToEncryptedData(uint8Array);
   const key = await derivePasswordKey(password, salt);
   return await decryptDocument(ciphertext, key, iv);
 }
+
 
 export const decodeBytestringToEncryptedData = bytestring => {
   /**
    * Takes an encrypted bytestring and returns an object containing the salt,
    * initialization vector, and ciphertext.
    * 
-   * @param {ArrayBuffer} bytestring
+   * @param {Uint8Array} bytestring
    * @returns {object}
    */
 
@@ -151,7 +153,7 @@ export const uint8Array32ToNumber = bytes => {
    * @returns {number}
    */
 
-  const view = new DataView(bytes);
+  const view = new DataView(bytes.buffer);
   return view.getUint32(0, true); 
 }
 
