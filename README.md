@@ -1,5 +1,7 @@
 # penumbra
 
+[![Tests](https://github.com/samirelanduk/penumbra/actions/workflows/test.yml/badge.svg)](https://github.com/samirelanduk/penumbra/actions/workflows/test.yml)
+
 ## App-wide state
 
 - `document`
