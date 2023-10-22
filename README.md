@@ -2,10 +2,10 @@
 
 [![Tests](https://github.com/samirelanduk/penumbra/actions/workflows/test.yml/badge.svg)](https://github.com/samirelanduk/penumbra/actions/workflows/test.yml)
 
-## App-wide state
+An offline-first, open-source, encrypted local notes app.
+Usable in the browser or as a standalone app (PWA).
 
-- `document`
-- `fileHandle`
+All notes are saved locally using AES-GCM encryption with a 256-bit key derived via PBKDF2.
 
 ## Bytestrings
 
@@ -14,6 +14,8 @@
 - *n* bytes: salt.
 - 4 bytes: 32 bit number representing length of initialization vector.
 - *n* bytes: initialization vector.
+- 4 bytes: 32 bit number representing length of version string.
+- *n* bytes: version string.
 - *n* bytes: encrypted document.
 
 ## Document Object
