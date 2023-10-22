@@ -79,11 +79,13 @@ it("Encodes encrypted data as bytestring", () => {
   const iv = new Uint8Array([60, 70, 80, 90, 100, 110, 120]);
   expect(encodeEncryptedDataAsBytestring(data, salt, iv)).toEqual(new Uint8Array([
     112, 101, 110, 117, 109, 98, 114, 97,
-    32, 0, 0, 0,
+    41, 0, 0, 0,
     5, 0, 0, 0,
     10, 20, 30, 40, 50,
     7, 0, 0, 0,
     60, 70, 80, 90, 100, 110, 120,
+    5, 0, 0, 0,
+    48, 46, 51, 46, 48,
     4, 8, 15, 16, 23, 42
   ]))
 })
@@ -92,16 +94,19 @@ it("Encodes encrypted data as bytestring", () => {
 it ("Decodes encrypted bytestring to encrypted data", () => {
   const bytestring = new Uint8Array([
     112, 101, 110, 117, 109, 98, 114, 97,
-    32, 0, 0, 0,
+    41, 0, 0, 0,
     5, 0, 0, 0,
     10, 20, 30, 40, 50,
     7, 0, 0, 0,
     60, 70, 80, 90, 100, 110, 120,
+    5, 0, 0, 0,
+    48, 46, 51, 46, 48,
     4, 8, 15, 16, 23, 42
   ])
   expect(decodeBytestringToEncryptedData(bytestring)).toEqual({
     salt: new Uint8Array([10, 20, 30, 40, 50]),
     iv: new Uint8Array([60, 70, 80, 90, 100, 110, 120]),
+    version: "0.3.0",
     ciphertext: new Uint8Array([4, 8, 15, 16, 23, 42])
   })
 })

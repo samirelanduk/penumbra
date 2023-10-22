@@ -1,3 +1,5 @@
+import { VERSION, PREFIX } from "./constants";
+
 export const encrypt = async (document, password) => {
   /**
    * Takes a document object and a plain text password and returns an encrypted
@@ -92,17 +94,20 @@ export const encodeEncryptedDataAsBytestring = (encryptedData, salt, iv) => {
    * @returns {Uint8Array}
    */
 
-  const prefixBytes = new Uint8Array([0x70, 0x65, 0x6e, 0x75, 0x6d, 0x62, 0x72, 0x61]);
   const saltBytes = new Uint8Array(salt);
   const saltLengthBytes = numberToUint8Array32(saltBytes.length);
   const ivBytes = new Uint8Array(iv);
   const ivLengthBytes = numberToUint8Array32(ivBytes.length);
   const ciphertextBytes = new Uint8Array(encryptedData);
-  const cipherStart = 16 + saltBytes.length + 4 + ivBytes.length;
+  const encoder = new TextEncoder();
+  const versionBytes = encoder.encode(VERSION);
+  const versionLengthBytes = numberToUint8Array32(versionBytes.length);
+  const cipherStart = 16 + saltBytes.length + 4 + ivBytes.length + 4 + versionBytes.length;
   const cipherStartBytes = numberToUint8Array32(cipherStart);
   const bytestring = new Uint8Array([
-    ...prefixBytes, ...cipherStartBytes, ...saltLengthBytes, ...saltBytes,
-    ...ivLengthBytes, ...ivBytes, ...ciphertextBytes
+    ...PREFIX, ...cipherStartBytes, ...saltLengthBytes, ...saltBytes,
+    ...ivLengthBytes, ...ivBytes, ...versionLengthBytes, ...versionBytes,
+    ...ciphertextBytes
   ]);
   return bytestring
 }
@@ -139,8 +144,13 @@ export const decodeBytestringToEncryptedData = bytestring => {
   const salt = bytestring.slice(16, 16 + saltLength);
   const ivLength = uint8Array32ToNumber(bytestring.slice(16 + saltLength, 20 + saltLength));
   const iv = bytestring.slice(20 + saltLength, 20 + saltLength + ivLength);
+  const decoder = new TextDecoder();
+  const versionLength = uint8Array32ToNumber(bytestring.slice(20 + saltLength + ivLength, 24 + saltLength+ ivLength));
+  const version = decoder.decode(bytestring.slice(
+    24 + saltLength + ivLength, 24 + saltLength + ivLength + versionLength
+  ));
   const ciphertext = bytestring.slice(cipherStart);
-  return { salt, iv, ciphertext };
+  return { salt, iv, version, ciphertext };
 }
 
 
