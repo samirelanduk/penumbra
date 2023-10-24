@@ -7,6 +7,10 @@ const TextEditor = props => {
 
   const ref = useRef(null);
 
+  const innerTextToMarkdown = innerText => {
+    return innerText.replace(/_/g, '\\_').replace(/\*/g, '\\*');
+  }
+
   useEffect(() => {
     ref.current.innerText = document.text;
   }, [document.name])
@@ -16,7 +20,7 @@ const TextEditor = props => {
   }, [document]);
 
   const onInput = () => {
-    setDocument({...document, text: ref.current.innerText})
+    setDocument({...document, text: innerTextToMarkdown(ref.current.innerText)})
   }
 
   return (
