@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeDocument } from "@/utils";
 
 const TextEditor = props => {
 
@@ -8,7 +7,9 @@ const TextEditor = props => {
 
   const ref = useRef(null);
 
-  const text = document ? document.text : "";
+  useEffect(() => {
+    ref.current.innerText = document.text;
+  }, [document.name])
   
   useEffect(() => {
     ref.current.focus();
@@ -26,12 +27,17 @@ const TextEditor = props => {
     return () => window.removeEventListener("beforeunload", onUnload);
   }, [document]);
 
+  const onInput = () => {
+    setDocument({...document, text: ref.current.innerText})
+  }
+
   return (
     <div className="flex-grow">
-      <textarea
+      <div
         ref={ref}
-        value={text}
-        onChange={e => setDocument({...(document || makeDocument()), text: e.target.value})}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={onInput}
         className="w-full block h-full px-4 outline-none py-4 bg-inherit resize-none max-w-none prose lg:prose-xl md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 dark:text-inherit"
       />
     </div>

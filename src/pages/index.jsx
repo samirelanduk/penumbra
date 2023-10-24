@@ -2,10 +2,11 @@ import { useState } from "react";
 import BottomRow from "@/components/BottomRow";
 import TextEditor from "@/components/TextEditor";
 import TopRow from "@/components/TopRow";
+import { makeDocument } from "@/utils";
 
 export default function Home() {
 
-  const [document, setDocument] = useState(null);
+  const [document, setDocument] = useState(makeDocument());
 
   return (
     <div className="h-screen flex flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200">

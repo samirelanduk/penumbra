@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { countWords } from "@/utils";
+import { countWords, makeDocument } from "@/utils";
 import { openFile, saveFile } from "@/files";
 import EncryptModal from "./EncryptModal";
 import DecryptModal from "./DecryptModal";
@@ -94,7 +94,7 @@ const Menu = props => {
   }
 
   const closeClicked = () => {
-    setDocument(null);
+    setDocument(makeDocument());
     setIsOpen(false);
   }
 
