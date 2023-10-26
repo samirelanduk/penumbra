@@ -1,15 +1,12 @@
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import { innerHtmlToMarkdown } from "../utils.js";
 
 const TextEditor = props => {
 
   const { document, setDocument } = props;
 
   const ref = useRef(null);
-
-  const innerTextToMarkdown = innerText => {
-    return innerText.replace(/_/g, '\\_').replace(/\*/g, '\\*');
-  }
 
   useEffect(() => {
     ref.current.innerText = document.text;
@@ -20,7 +17,7 @@ const TextEditor = props => {
   }, [document]);
 
   const onInput = () => {
-    setDocument({...document, text: innerTextToMarkdown(ref.current.innerText)})
+    setDocument({...document, text: innerHtmlToMarkdown(ref.current.innerHTML)})
   }
 
   return (
