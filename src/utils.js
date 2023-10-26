@@ -54,5 +54,8 @@ export const innerHtmlToMarkdown = html => {
   markdown = markdown.replace(/\*/g, "\\*");
   markdown = markdown.replace(/_/g, "\\_");
 
+  // Replace <b>...</b> with **...**
+  markdown = markdown.replace(/<b>(.*?)<\/b>/g, "**$1**");
+
   return markdown;
 }
