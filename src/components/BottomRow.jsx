@@ -17,7 +17,7 @@ const BottomRow = props => {
   const neutralClass = "text-gray-400 text-xs ml-1";
     
   return (
-    <div className="w-full border-t h-10 flex justify-between text-sm text-gray-500 px-4 dark:border-gray-600 dark:text-gray-400">
+    <div className="w-full border-t h-10 flex flex-shrink-0 justify-between text-sm text-gray-500 px-4 dark:border-gray-600 dark:text-gray-400">
       <div className="flex items-center">
         <div>{charCount.toLocaleString()} character{charCount === 1 ? "" : "s"} </div>
         <div className="mx-2">|</div>
