@@ -5,6 +5,7 @@ import TopRow from "@/components/TopRow";
 import { makeDocument } from "@/utils";
 import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
+import Toolbar from "@/components/Toolbar";
 
 export default function Home() {
 
@@ -34,6 +35,7 @@ export default function Home() {
     <Slate editor={editor} initialValue={document.slate} onChange={onChange}>
       <div className="h-screen flex flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200">
         <TopRow document={document} setDocument={setDocument} />
+        <Toolbar />
         <TextEditor document={document} setDocument={setDocument} />
         <BottomRow document={document} />
       </div>
