@@ -4,6 +4,8 @@ import Modal from "./Modal";
 import { decrypt } from "@/encryption";
 import { countWords, makeDocument } from "@/utils";
 import { ClipLoader } from "react-spinners";
+import { plainText } from "@/serialize";
+import { useSlate } from "slate-react";
 
 const DecryptModal = props => {
 
@@ -16,6 +18,8 @@ const DecryptModal = props => {
   const ref = useRef(null);
 
   useEffect(() => ref.current.focus(), []);
+
+  const editor = useSlate();
 
   const decryptClicked = async () => {
     setLoading(true);
@@ -32,11 +36,14 @@ const DecryptModal = props => {
     document.password = password;
     document.fileHandle = fileHandle;
     document.name = filename;
-    document.initialCharacterCount = document.text.length;
-    document.initialWordCount = countWords(document.text);
+    const text = plainText(document.slate);
+    document.initialCharacterCount = text.length;
+    document.initialWordCount = countWords(text);
     setDocument(document);
     setError(null);
     setLoading(false);
+    editor.children = document.slate;
+    setTimeout(() => editor.onChange(document.slate), 0);
     setTimeout(() => setShow(false), 100);
   }
 

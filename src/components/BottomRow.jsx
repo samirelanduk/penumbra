@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 import { countWords } from "@/utils";
+import { plainText } from "@/serialize";
 
 const BottomRow = props => {
 
   const { document } = props;
 
-  const text = document ? document.text : "";
+  const text = plainText(document.slate);
   const charCount = text.length;
   const wordCount = countWords(text);
 

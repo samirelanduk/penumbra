@@ -5,6 +5,7 @@ import { encrypt } from "@/encryption";
 import { saveFileAs } from "@/files";
 import { countWords } from "@/utils";
 import { ClipLoader } from "react-spinners";
+import { plainText } from "@/serialize";
 
 const EncryptModal = props => {
 
@@ -24,13 +25,14 @@ const EncryptModal = props => {
       setLoading(false);
       return;
     }
+    const text = plainText(document.slate);
     setDocument({
       ...document,
       name: fileHandle.name,
       fileHandle,
       password,
-      initialCharacterCount: document.text.length,
-      initialWordCount: countWords(document.text),
+      initialCharacterCount: text.length,
+      initialWordCount: countWords(text),
     });
     setLoading(false);
     setTimeout(() => setShow(false), 100);

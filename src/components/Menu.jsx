@@ -6,6 +6,8 @@ import EncryptModal from "./EncryptModal";
 import DecryptModal from "./DecryptModal";
 import { encrypt } from "@/encryption";
 import ErrorModal from "./ErrorModal";
+import { plainText } from "@/serialize";
+import { useSlate } from "slate-react";
 
 const Menu = props => {
 
@@ -17,6 +19,7 @@ const Menu = props => {
   const [encryptedBytestring, setEncryptedBytestring] = useState(null);
   const [openedFileHandle, setOpenedFileHandle] = useState(null);
   const [error, setError] = useState("");
+  const editor = useSlate();
   const ref = useRef(null);
 
   useEffect(() => {
@@ -33,8 +36,9 @@ const Menu = props => {
   })
 
   const canOpen = true;
+  const text = plainText(document.slate);
   const canSave = Boolean(document && document.fileHandle);
-  const canSaveAs = Boolean(document) && document.text.length > 0;
+  const canSaveAs = Boolean(document) && text.length > 0;
   const canClose = Boolean(document && document.fileHandle);
 
   useEffect(() => {
@@ -80,11 +84,12 @@ const Menu = props => {
   const saveClicked = async () => {
     const bytestring = await encrypt(document, document.password);
     await saveFile(document.fileHandle, bytestring);
+    const text = plainText(document.slate);
     setDocument({
       ...document,
       name: document.fileHandle.name,
-      initialCharacterCount: document.text.length,
-      initialWordCount: countWords(document.text),
+      initialCharacterCount: text.length,
+      initialWordCount: countWords(text),
     });
     setIsOpen(false);
   }
@@ -94,8 +99,11 @@ const Menu = props => {
   }
 
   const closeClicked = () => {
-    setDocument(makeDocument());
+    const document = makeDocument();
+    setDocument(document);
     setIsOpen(false);
+    editor.children = document.slate;
+    setTimeout(() => editor.onChange(document.slate), 0);
   }
 
   const optionClass = "py-2 px-6 text-slate-600 cursor-pointer flex items-baseline justify-between hover:bg-slate-100";
