@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import BottomRow from "@/components/BottomRow";
 import TextEditor from "@/components/TextEditor";
 import TopRow from "@/components/TopRow";
@@ -7,26 +7,14 @@ import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
 import Toolbar from "@/components/Toolbar";
 import { withPenumbraCommands } from "@/commands";
+import useWarnUnsavedChanges from "@/hooks";
 
 export default function Home() {
 
   const [document, setDocument] = useState(makeDocument());
   const [editor] = useState(() => withReact(withPenumbraCommands(createEditor())));
 
-  useEffect(() => {
-    const onUnload = e => {
-      e.preventDefault();
-      if (!document) return;
-      if (document.name) {
-        if (document.text.length === document.initialCharacterCount) return;
-      } else {
-        if (!document.text) return;
-      }
-      e.returnValue = "";
-    }
-    window.addEventListener("beforeunload", onUnload);
-    return () => window.removeEventListener("beforeunload", onUnload);
-  }, [document]);
+  useWarnUnsavedChanges(document);
 
   const onChange = value => {
     setDocument({ ...document, slate: value });
