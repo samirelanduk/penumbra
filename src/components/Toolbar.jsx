@@ -14,6 +14,8 @@ const Toolbar = () => {
     "b": () => toggleMark(editor, "bold"),
     "i": () => toggleMark(editor, "italics"),
     "u": () => toggleMark(editor, "underline"),
+    "z": () => editor.undo(),
+    "r": () => editor.redo(),
   }
 
   useFormattingShortcuts(editor, shortcuts);

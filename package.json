@@ -16,6 +16,7 @@
     "react-dom": "latest",
     "react-spinners": "^0.13.8",
     "slate": "^0.100.0",
+    "slate-history": "^0.100.0",
     "slate-react": "^0.100.0"
   },
   "devDependencies": {

@@ -5,14 +5,14 @@ import TopRow from "@/components/TopRow";
 import { makeDocument } from "@/utils";
 import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
-import Toolbar from "@/components/Toolbar";
+import { withHistory } from "slate-history";
 import { withPenumbraCommands } from "@/commands";
 import { useWarnUnsavedChanges, useDocumentTitle } from "@/hooks";
 
 export default function Home() {
 
   const [document, setDocument] = useState(makeDocument());
-  const [editor] = useState(() => withReact(withPenumbraCommands(createEditor())));
+  const [editor] = useState(() => withReact(withPenumbraCommands(withHistory(createEditor()))));
 
   useWarnUnsavedChanges(document);
   useDocumentTitle(document);
