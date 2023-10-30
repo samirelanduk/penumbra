@@ -1,4 +1,4 @@
-import { countWords, makeDocument } from "./utils";
+import { countWords, makeDocument } from "../utils";
 
 describe("countWords", () => {
 

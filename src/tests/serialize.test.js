@@ -1,4 +1,4 @@
-import { plainText } from "./serialize";
+import { plainText } from "../serialize";
 
 describe("plainText", () => {
 

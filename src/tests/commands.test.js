@@ -1,5 +1,5 @@
 import { createEditor } from "slate";
-import { withPenumbraCommands } from "./commands";
+import { withPenumbraCommands } from "../commands";
 
 describe("withPenumbraCommands", () => {
 

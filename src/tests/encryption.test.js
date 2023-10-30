@@ -4,7 +4,7 @@ import {
   derivePasswordKey, encryptDocument, numberToUint8Array32, encodeEncryptedDataAsBytestring,
   decodeBytestringToEncryptedData, uint8Array32ToNumber, decryptDocument,
   encrypt, decrypt
-} from "./encryption"
+} from "../encryption"
 
 Object.defineProperty(global, "TextEncoder", {
   value: util.TextEncoder
