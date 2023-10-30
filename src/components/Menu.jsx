@@ -121,7 +121,7 @@ const Menu = props => {
         <div className={circleClass} />
         <div className={circleClass} />
       </div>
-      <div className={`absolute top-12 right-8 w-56 border shadow border-gray-200 py-2.5 bg-white rounded-lg transition-all dark:border-0 duration-500 ${isOpen ? "" : "opacity-0 pointer-events-none"}`}>
+      <div className={`absolute z-50 top-12 right-8 w-56 border shadow border-gray-200 py-2.5 bg-white rounded-lg transition-all dark:border-0 duration-500 ${isOpen ? "" : "opacity-0 pointer-events-none"}`}>
         <div className={canOpen ? optionClass : disabledOptionClass} onClick={openClicked}>
           Open <span className={controlClass}>{control} O</span>
         </div>

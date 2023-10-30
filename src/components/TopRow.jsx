@@ -1,13 +1,14 @@
 import PropTypes from "prop-types";
 import Menu from "./Menu";
+import Toolbar from "./Toolbar";
 
 const TopRow = props => {
 
   const { document, setDocument } = props;
 
   return (
-    <div className="w-full flex flex-shrink-0 items-center justify-center px-6 h-12 relative">
-      <div className="text-gray-500 text-sm">{document.name || ""}</div>
+    <div className="w-full flex justify-start flex-shrink-0 items-center px-6 h-12 relative sm:justify-center">
+      <Toolbar />
       <Menu document={document} setDocument={setDocument} />
     </div>
   );

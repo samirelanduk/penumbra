@@ -7,7 +7,7 @@ export const useWarnUnsavedChanges = document => {
    * if they attempt to close the window or navigate away from the page without
    * saving their changes.
    */
-  
+
   useEffect(() => {
     const onUnload = (e) => {
       e.preventDefault();
@@ -25,4 +25,13 @@ export const useWarnUnsavedChanges = document => {
   }, [document]);
 }
 
-export default useWarnUnsavedChanges;
+export const useDocumentTitle = document => {
+  useEffect(() => {
+    console.log(document?.name)
+    if (!document || !document.name) {
+      window.document.title = "Penumbra - encrypted local notes";
+    } else {
+      window.document.title = `${document.name} - Penumbra`;
+    }
+  }, [document]);
+}

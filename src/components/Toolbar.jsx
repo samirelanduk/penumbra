@@ -39,11 +39,11 @@ const Toolbar = () => {
     toggleBlock(editor, "h3");
   }
 
-  const buttonClass = "w-10 h-10 flex items-center justify-center rounded-md cursor-pointer text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900"
+  const buttonClass = "w-8 h-8 flex items-center justify-center rounded-md cursor-pointer text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 sm:h-10 sm:w-10"
   const selectedButtonClass = `${buttonClass} bg-gray-100 dark:bg-slate-900`
 
   return (
-    <div className="flex mx-auto">
+    <div className="flex w-fit">
       <div
         className={`${isBlockActive(editor, "p") ? selectedButtonClass : buttonClass}`}
         onMouseDown={pPressed}

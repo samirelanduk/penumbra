@@ -1,10 +1,7 @@
 import { useCallback } from "react";
-import PropTypes from "prop-types";
 import { Editable } from "slate-react";
 
-const TextEditor = props => {
-
-  const { document, setDocument } = props;
+const TextEditor = () => {
 
   const H1Element = props => {
     return <h1 {...props.attributes} className="text-color">{props.children}</h1>
@@ -30,21 +27,22 @@ const TextEditor = props => {
       default: return <DefaultElement {...props} />
     }
   }, [])
+
+  const proseClass = "prose prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4 prose-p:my-4 lg:prose-xl lg:prose-h1:mb-8 lg:prose-h2:mb-6 prose-p:my-5";
   
   return (
     <div className="flex-grow overflow-y-scroll">
       <Editable
         autoFocus
         renderElement={renderElement}
-        className="w-full block px-4 outline-none py-4 bg-inherit resize-none max-w-none prose lg:prose-xl md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 dark:text-inherit"
+        className={`w-full block px-4 outline-none py-4 bg-inherit resize-none max-w-none md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 dark:text-inherit ${proseClass}`}
       />
     </div>
   );
 };
 
 TextEditor.propTypes = {
-  document: PropTypes.object,
-  setDocument: PropTypes.func.isRequired
+
 };
 
 export default TextEditor;
