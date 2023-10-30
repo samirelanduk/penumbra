@@ -28,6 +28,22 @@ const TextEditor = () => {
     }
   }, [])
 
+  const renderLeaf = useCallback(props => {
+    const boldClass = props.leaf.bold ? "font-bold" : "";
+    const italicsClass = props.leaf.italics ? "italic" : "";
+    const underlineClass = props.leaf.underline ? "underline" : "";
+    const strikethroughClass = props.leaf.strikethrough ? "line-through" : "";
+    const className = `${boldClass} ${italicsClass} ${underlineClass} ${strikethroughClass}`;
+    return (
+      <span
+        {...props.attributes}
+        className={className}
+      >
+        {props.children}
+      </span>
+    )
+  }, [])
+
   const proseClass = "prose prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4 prose-p:my-4 lg:prose-xl lg:prose-h1:mb-8 lg:prose-h2:mb-6 prose-p:my-5";
   
   return (
@@ -35,6 +51,7 @@ const TextEditor = () => {
       <Editable
         autoFocus
         renderElement={renderElement}
+        renderLeaf={renderLeaf}
         className={`w-full block px-4 outline-none py-4 bg-inherit resize-none max-w-none md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 dark:text-inherit ${proseClass}`}
       />
     </div>
