@@ -7,7 +7,8 @@ import DecryptModal from "./DecryptModal";
 import { encrypt } from "@/encryption";
 import ErrorModal from "./ErrorModal";
 import { plainText } from "@/serialize";
-import { useSlate } from "slate-react";
+import { ReactEditor, useSlate } from "slate-react";
+import { Editor, Transforms } from "slate";
 
 const Menu = props => {
 
@@ -103,7 +104,14 @@ const Menu = props => {
     setDocument(document);
     setIsOpen(false);
     editor.children = document.slate;
-    setTimeout(() => editor.onChange(document.slate), 0);
+    const point = { path: [0, 0], offset: 0 }
+    editor.selection = { anchor: point, focus: point };
+    editor.history = { redos: [], undos: [] }; 
+    setTimeout(() => {
+      editor.onChange(document.slate);
+      ReactEditor.focus(editor);
+      Transforms.select(editor, Editor.end(editor, []));
+    }, 0);
   }
 
   const optionClass = "py-2 px-6 text-slate-600 cursor-pointer flex items-baseline justify-between hover:bg-slate-100";

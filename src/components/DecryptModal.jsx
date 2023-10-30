@@ -5,7 +5,8 @@ import { decrypt } from "@/encryption";
 import { countWords, makeDocument } from "@/utils";
 import { ClipLoader } from "react-spinners";
 import { plainText } from "@/serialize";
-import { useSlate } from "slate-react";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, useSlate } from "slate-react";
 
 const DecryptModal = props => {
 
@@ -43,7 +44,11 @@ const DecryptModal = props => {
     setError(null);
     setLoading(false);
     editor.children = document.slate;
-    setTimeout(() => editor.onChange(document.slate), 0);
+    setTimeout(() => {
+      editor.onChange(document.slate)
+      ReactEditor.focus(editor);
+      Transforms.select(editor, Editor.end(editor, []));
+    }, 0);
     setTimeout(() => setShow(false), 100);
   }
 
