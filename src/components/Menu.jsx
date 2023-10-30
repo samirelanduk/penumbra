@@ -9,6 +9,7 @@ import ErrorModal from "./ErrorModal";
 import { plainText } from "@/serialize";
 import { ReactEditor, useSlate } from "slate-react";
 import { Editor, Transforms } from "slate";
+import BrowserWarning from "./BrowserWarning";
 
 const Menu = props => {
 
@@ -16,6 +17,7 @@ const Menu = props => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [control, setControl] = useState("Ctrl");
+  const [browserSupported, setBrowserSupported] = useState(true);
   const [showEncryptModal, setShowEncryptModal] = useState(false);
   const [encryptedBytestring, setEncryptedBytestring] = useState(null);
   const [openedFileHandle, setOpenedFileHandle] = useState(null);
@@ -34,13 +36,14 @@ const Menu = props => {
   useEffect(() => {
     const isMac = navigator.userAgent.includes("Mac");
     setControl(isMac ? "⌘" : "Ctrl");
+    if (!window.showOpenFilePicker) setBrowserSupported(false);
   })
 
-  const canOpen = true;
+  const canOpen = browserSupported;
   const text = plainText(document.slate);
-  const canSave = Boolean(document && document.fileHandle);
-  const canSaveAs = Boolean(document) && text.length > 0;
-  const canClose = Boolean(document && document.fileHandle);
+  const canSave = browserSupported && Boolean(document && document.fileHandle);
+  const canSaveAs = browserSupported && Boolean(document) && text.length > 0;
+  const canClose = browserSupported && Boolean(document && document.fileHandle);
 
   useEffect(() => {
     const onKeyDown = e => {
@@ -130,6 +133,7 @@ const Menu = props => {
         <div className={circleClass} />
       </div>
       <div className={`absolute z-50 top-12 right-8 w-56 border shadow border-gray-200 py-2.5 bg-white rounded-lg transition-all dark:border-0 duration-500 ${isOpen ? "" : "opacity-0 pointer-events-none"}`}>
+        {!browserSupported && <BrowserWarning />}
         <div className={canOpen ? optionClass : disabledOptionClass} onClick={openClicked}>
           Open <span className={controlClass}>{control} O</span>
         </div>
