@@ -50,10 +50,16 @@ export const useFormattingShortcuts = (editor, shortcuts) => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
+      const processedShortcuts = Object.entries(shortcuts).reduce((acc, [key, value]) => {
+        acc[key.replace("+", "")] = {func: value, shift: key.includes("+")};
+        return acc;
+      }, {});
       if (event.metaKey || event.ctrlKey) {
-        if (shortcuts[event.key]) {
+        if (processedShortcuts[event.key] && (
+          !processedShortcuts[event.key].shift || event.shiftKey
+        )) {
           event.preventDefault();
-          shortcuts[event.key]();
+          processedShortcuts[event.key].func();
         }
       }
     };
