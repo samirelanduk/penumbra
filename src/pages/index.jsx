@@ -6,11 +6,12 @@ import { makeDocument } from "@/utils";
 import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
 import Toolbar from "@/components/Toolbar";
+import { withPenumbraCommands } from "@/commands";
 
 export default function Home() {
 
   const [document, setDocument] = useState(makeDocument());
-  const [editor] = useState(() => withReact(createEditor()));
+  const [editor] = useState(() => withReact(withPenumbraCommands(createEditor())));
 
   useEffect(() => {
     const onUnload = e => {
