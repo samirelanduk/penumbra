@@ -1,3 +1,4 @@
+import { useFormattingShortcuts } from "@/hooks";
 import React, { useEffect } from "react";
 import { Transforms, Editor } from "slate";
 import { useSlate } from "slate-react";
@@ -6,40 +7,16 @@ const Toolbar = () => {
 
   const editor = useSlate();
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.metaKey || event.ctrlKey) {
-        switch (event.key) {
-          case "1":
-            event.preventDefault();
-            toggleBlock(editor, "h1");
-            break;
-          case "2":
-            event.preventDefault();
-            toggleBlock(editor, "h2");
-            break;
-          case "3":
-            event.preventDefault();
-            toggleBlock(editor, "h3");
-            break;
-          case "b":
-            event.preventDefault();
-            toggleMark(editor, "bold");
-            break;
-          case "i":
-            event.preventDefault();
-            toggleMark(editor, "italics");
-            break;
-          case "u":
-            event.preventDefault();
-            toggleMark(editor, "underline");
-            break;
-        }
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [editor]);
+  const shortcuts = {
+    "1": () => toggleBlock(editor, "h1"),
+    "2": () => toggleBlock(editor, "h2"),
+    "3": () => toggleBlock(editor, "h3"),
+    "b": () => toggleMark(editor, "bold"),
+    "i": () => toggleMark(editor, "italics"),
+    "u": () => toggleMark(editor, "underline"),
+  }
+
+  useFormattingShortcuts(editor, shortcuts);
 
   const isBlockActive = (editor, format) => {
     const [match] = Editor.nodes(editor, {
@@ -68,102 +45,58 @@ const Toolbar = () => {
     }
   };
 
-  const pPressed = e => {
-    e.preventDefault();
-    toggleBlock(editor, "p");
-  }
-
-  const h1Pressed = e => {
-    e.preventDefault();
-    toggleBlock(editor, "h1");
-  }
-
-  const h2Pressed = e => {
-    e.preventDefault();
-    toggleBlock(editor, "h2");
-  }
-
-  const h3Pressed = e => {
-    e.preventDefault();
-    toggleBlock(editor, "h3");
-  }
-
-  const boldPressed = e => {
-    e.preventDefault();
-    toggleMark(editor, "bold");
-  };
-
-  const italicsPressed = e => {
-    e.preventDefault();
-    toggleMark(editor, "italics");
-  };
-
-  const underlinePressed = e => {
-    e.preventDefault();
-    toggleMark(editor, "underline");
-  };
-
-  const strikethroughPressed = e => {
-    e.preventDefault();
-    toggleMark(editor, "strikethrough");
-  };
-
-  const buttonClass = "w-8 h-8 flex items-center justify-center rounded-md cursor-pointer text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 sm:h-10 sm:w-10"
+  const buttonClass = "w-6 h-6 text-sm flex items-center justify-center rounded-md cursor-pointer text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 sm:h-8 sm:w-8 sm:text-base"
   const selectedButtonClass = `${buttonClass} bg-gray-100 dark:bg-slate-900`
 
+  const blocks = [
+    {
+      checker: isBlockActive,
+      toggle: toggleBlock,
+      buttons: [
+        {type: "p", icon: "P"},
+        {type: "h1", icon: "H1"},
+        {type: "h2", icon: "H2"},
+        {type: "h3", icon: "H3"}
+      ],
+    },
+    {
+      checker: isMarkActive,
+      toggle: toggleMark,
+      buttons: [
+        {type: "bold", icon: "B"},
+        {type: "italics", icon: "I"},
+        {type: "underline", icon: "U"},
+        {type: "strikethrough", icon: "S"}
+      ],
+    }
+  ];
+
   return (
-    <div className="flex w-fit">
-      <div
-        className={`${isBlockActive(editor, "p") ? selectedButtonClass : buttonClass}`}
-        onMouseDown={pPressed}
-      >
-        P
-      </div>
-      <div
-        className={`${isBlockActive(editor, "h1") ? selectedButtonClass : buttonClass}`}
-        onMouseDown={h1Pressed}
-      >
-        H1
-      </div>
-      <div
-        className={`${isBlockActive(editor, "h2") ? selectedButtonClass : buttonClass}`}
-        onMouseDown={h2Pressed}
-      >
-        H2
-      </div>
-      <div
-        className={`${isBlockActive(editor, "h3") ? selectedButtonClass : buttonClass}`}
-        onMouseDown={h3Pressed}
-      >
-        H3
-      </div>
-      <div 
-        className={`${isMarkActive(editor, "bold") ? selectedButtonClass : buttonClass} font-bold ml-5`}
-        onMouseDown={boldPressed}
-      >
-        B
-      </div>
-      <div
-        className={`${isMarkActive(editor, "italics") ? selectedButtonClass : buttonClass} italic`}
-        onMouseDown={italicsPressed}
-      >
-        I
-      </div>
-      <div
-        className={`${isMarkActive(editor, "underline") ? selectedButtonClass : buttonClass} underline`}
-        onMouseDown={underlinePressed}
-      >
-        U
-      </div>
-      <div
-        className={`${isMarkActive(editor, "strikethrough") ? selectedButtonClass : buttonClass} line-through`}
-        onMouseDown={strikethroughPressed}
-      >
-        S
-      </div>
+    <div className="flex gap-3 w-fit sm:gap-5">
+      {blocks.map((block, index) => {
+        return (
+          <div className="flex gap-1 sm:gap-2" key={index}>
+            {block.buttons.map(button => {
+              const className = block.checker(editor, button.type) ? selectedButtonClass : buttonClass;
+              return (
+                <div
+                  className={className}
+                  onMouseDown={e => {
+                    e.preventDefault();
+                    block.toggle(editor, button.type);
+                  }}
+                  key={button.type}
+                >
+                  {button.icon}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
-};
+}
 
 Toolbar.propTypes = {
   

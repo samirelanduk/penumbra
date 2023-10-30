@@ -25,7 +25,13 @@ export const useWarnUnsavedChanges = document => {
   }, [document]);
 }
 
+
 export const useDocumentTitle = document => {
+  /**
+   * This hook updates the document title to reflect the name of the document
+   * being edited.
+   */
+
   useEffect(() => {
     if (!document || !document.name) {
       window.document.title = "Penumbra - encrypted local notes";
@@ -33,4 +39,25 @@ export const useDocumentTitle = document => {
       window.document.title = `${document.name} - Penumbra`;
     }
   }, [document]);
+}
+
+
+export const useFormattingShortcuts = (editor, shortcuts) => {
+  /**
+   * This hook adds event listeners to the window object that allow the user to
+   * apply formatting to the current selection using keyboard shortcuts.
+   */
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.metaKey || event.ctrlKey) {
+        if (shortcuts[event.key]) {
+          event.preventDefault();
+          shortcuts[event.key]();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [editor, shortcuts]);
 }
