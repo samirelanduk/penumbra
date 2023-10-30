@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  .prose p:first-child {
+    @apply my-0;
+  }
+}
+
 @layer utilities {
   .text-color {
     @apply dark:text-slate-200;
