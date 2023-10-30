@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Transforms, Editor } from "slate";
 import { useSlate } from "slate-react";
 
 const Toolbar = () => {
 
   const editor = useSlate();
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.metaKey || event.ctrlKey) {
+        switch (event.key) {
+          case "1":
+            event.preventDefault();
+            toggleBlock(editor, "h1");
+            break;
+          case "2":
+            event.preventDefault();
+            toggleBlock(editor, "h2");
+            break;
+          case "3":
+            event.preventDefault();
+            toggleBlock(editor, "h3");
+            break;
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [editor]);
 
   const isBlockActive = (editor, format) => {
     const [match] = Editor.nodes(editor, {
