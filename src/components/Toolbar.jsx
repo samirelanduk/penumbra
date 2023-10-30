@@ -1,6 +1,13 @@
 import { useFormattingShortcuts } from "@/hooks";
-import React, { useEffect } from "react";
 import { Transforms, Editor } from "slate";
+import BoldIcon from "@/images/bold.svg";
+import ItalicsIcon from "@/images/italics.svg";
+import UnderlineIcon from "@/images/underline.svg";
+import StrikethroughIcon from "@/images/strikethrough.svg";
+import ParagraphIcon from "@/images/paragraph.svg";
+import H1Icon from "@/images/h1.svg";
+import H2Icon from "@/images/h2.svg";
+import H3Icon from "@/images/h3.svg";
 import { useSlate } from "slate-react";
 
 const Toolbar = () => {
@@ -47,28 +54,29 @@ const Toolbar = () => {
     }
   };
 
-  const buttonClass = "w-6 h-6 text-sm flex items-center justify-center rounded-md cursor-pointer text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 sm:h-8 sm:w-8 sm:text-base"
+  const buttonClass = "w-6 h-6 flex items-center justify-center rounded-md cursor-pointer hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 sm:h-8 sm:w-8"
   const selectedButtonClass = `${buttonClass} bg-gray-100 dark:bg-slate-900`
+  const iconClass = "w-full h-auto dark:fill-gray-400";
 
   const blocks = [
     {
       checker: isBlockActive,
       toggle: toggleBlock,
       buttons: [
-        {type: "p", icon: "P"},
-        {type: "h1", icon: "H1"},
-        {type: "h2", icon: "H2"},
-        {type: "h3", icon: "H3"}
+        {type: "p", icon: <ParagraphIcon className={iconClass} />, className: "p-1 sm:p-2"},
+        {type: "h1", icon: <H1Icon className={iconClass} />, className: "sm:p-0.5"},
+        {type: "h2", icon: <H2Icon className={iconClass} />, className: "p-0.5 sm:p-1"},
+        {type: "h3", icon: <H3Icon className={iconClass} />, className: "p-1 sm:p-1.5"}
       ],
     },
     {
       checker: isMarkActive,
       toggle: toggleMark,
       buttons: [
-        {type: "bold", icon: "B"},
-        {type: "italics", icon: "I"},
-        {type: "underline", icon: "U"},
-        {type: "strikethrough", icon: "S"}
+        {type: "bold", icon: <BoldIcon className={iconClass} />, className: "p-1 sm:p-2"},
+        {type: "italics", icon: <ItalicsIcon className={iconClass} />, className: "p-1 sm:p-2"},
+        {type: "underline", icon: <UnderlineIcon className={iconClass} />, className: "p-1 sm:p-2"},
+        {type: "strikethrough", icon: <StrikethroughIcon className={iconClass} />, className: "p-0.5 sm:p-1.5"}
       ],
     }
   ];
@@ -82,7 +90,7 @@ const Toolbar = () => {
               const className = block.checker(editor, button.type) ? selectedButtonClass : buttonClass;
               return (
                 <div
-                  className={className}
+                  className={`${className} ${button.className}`}
                   onMouseDown={e => {
                     e.preventDefault();
                     block.toggle(editor, button.type);
