@@ -5,8 +5,8 @@ const Modal = props => {
   const { children } = props;
 
   return (
-    <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-gray-500 bg-opacity-75 flex justify-center items-center">
-      <div className={`bg-gray-50 w-fit rounded-md overflow-hidden dark:bg-slate-900 ${props.className || ""}`}>
+    <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-gray-700 bg-opacity-80 flex justify-center items-center">
+      <div className={`bg-gray-200 w-fit border rounded-md overflow-hidden border-slate-500 dark:bg-slate-900 dark:border-slate-500 ${props.className || ""}`}>
         {children}
       </div>
     </div>

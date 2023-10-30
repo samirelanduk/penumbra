@@ -24,7 +24,7 @@ export const openFile = async () => {
       if (matchesPrefix) {
         resolve([reader.result, fileHandle]);
       } else {
-        reject(new Error("File was not created by Penumbra."));
+        reject(new Error("File was not created by Penumbra"));
       }
     };
     reader.readAsArrayBuffer(fileData);
