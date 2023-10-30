@@ -36,7 +36,7 @@ export const useDocumentTitle = document => {
     if (!document || !document.name) {
       window.document.title = "Penumbra - encrypted local notes";
     } else {
-      window.document.title = `${document.name} - Penumbra`;
+      window.document.title = document.name
     }
   }, [document]);
 }
