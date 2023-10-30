@@ -7,22 +7,14 @@ Usable in the browser or as a standalone app (PWA).
 
 All notes are saved locally using AES-GCM encryption with a 256-bit key derived via PBKDF2.
 
-## Bytestrings
+Note: a browser which implements the new [File system Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_API) is required in order to open and save files.
+Currently only Chrome and Edge support this, though the feature is being implemented in other browsers.
 
-- 4 bytes: 32 bit number representing offset to start of encrypted document.
-- 4 bytes: 32 bit number representing length of salt.
-- *n* bytes: salt.
-- 4 bytes: 32 bit number representing length of initialization vector.
-- *n* bytes: initialization vector.
-- 4 bytes: 32 bit number representing length of version string.
-- *n* bytes: version string.
-- *n* bytes: encrypted document.
-
-## Document Object
+## State
 
 ```javascript
 {
-    text: "Updated text which values below won't match.",
+    slate: [{type: "p", children: [{ text: "Updated text which values below won't match."}]}],
     name: "mynotes.enc", // Blank unless opened/saved
     initialCharacterCount: 100, // Blank unless opened/saved
     initialWordCount: 25 // Blank unless opened/saved
@@ -30,3 +22,26 @@ All notes are saved locally using AES-GCM encryption with a 256-bit key derived 
     fileHandle: {...}, // Removed before encrypting/saving
 }
 ```
+
+## Changelog
+
+### v0.4.0 - 30 October, 2023
+
+- Slate integration.
+- Rich text formatting.
+- Better error modal look.
+
+### v0.3.0 - 22 October, 2023
+
+- Encryption/decryption.
+- Initial test suite.
+
+### v0.2.0 - 4 October, 2023
+
+- File saving/loading.
+- Character/word counts.
+
+### v0.1.0 - 29 September, 2023
+
+- Initial interface.
+- Dark mode.
