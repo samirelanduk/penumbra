@@ -8,6 +8,7 @@ import { Slate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 import { withPenumbraCommands } from "@/commands";
 import { useWarnUnsavedChanges, useDocumentTitle } from "@/hooks";
+import Div100vh from "react-div-100vh";
 
 export default function Home() {
 
@@ -23,11 +24,11 @@ export default function Home() {
 
   return (
     <Slate editor={editor} initialValue={document.slate} onChange={onChange}>
-      <div className="h-screen flex flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200">
+      <Div100vh className="flex flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200">
         <TopRow document={document} setDocument={setDocument} />
         <TextEditor document={document} setDocument={setDocument} />
         <BottomRow document={document} />
-      </div>
+      </Div100vh>
     </Slate>
   )
 }

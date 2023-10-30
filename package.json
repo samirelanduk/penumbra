@@ -13,6 +13,7 @@
   "dependencies": {
     "next": "latest",
     "react": "latest",
+    "react-div-100vh": "^0.7.0",
     "react-dom": "latest",
     "react-spinners": "^0.13.8",
     "slate": "^0.100.0",
