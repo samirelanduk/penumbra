@@ -1,3 +1,5 @@
+import { PREFIX } from "./constants";
+
 export const openFile = async () => {
   /**
    * Opens a file picker and returns the binary contents of the selected file
@@ -12,14 +14,11 @@ export const openFile = async () => {
     });
   } catch { return [] }
   const fileData = await fileHandle.getFile();
-  const expectedPrefix = new Uint8Array([
-    0x70, 0x65, 0x6e, 0x75, 0x6d, 0x62, 0x72, 0x61
-  ]);
   return await new Promise(async (resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
       const resultArray = new Uint8Array(reader.result);
-      const matchesPrefix = expectedPrefix.every(
+      const matchesPrefix = PREFIX.every(
         (byte, index) => byte === resultArray[index]
       );
       if (matchesPrefix) {

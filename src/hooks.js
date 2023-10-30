@@ -27,7 +27,6 @@ export const useWarnUnsavedChanges = document => {
 
 export const useDocumentTitle = document => {
   useEffect(() => {
-    console.log(document?.name)
     if (!document || !document.name) {
       window.document.title = "Penumbra - encrypted local notes";
     } else {
