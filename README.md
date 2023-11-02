@@ -1,6 +1,7 @@
 # penumbra
 
 [![Tests](https://github.com/samirelanduk/penumbra/actions/workflows/test.yml/badge.svg)](https://github.com/samirelanduk/penumbra/actions/workflows/test.yml)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 An offline-first, open-source, encrypted local notes app.
 Usable in the browser or as a standalone app (PWA).
