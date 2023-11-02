@@ -26,7 +26,7 @@ export default function Home() {
     <Slate editor={editor} initialValue={document.slate} onChange={onChange}>
       <Div100vh className="flex flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200">
         <TopRow document={document} setDocument={setDocument} />
-        <TextEditor document={document} setDocument={setDocument} />
+        <TextEditor />
         <BottomRow document={document} />
       </Div100vh>
     </Slate>
