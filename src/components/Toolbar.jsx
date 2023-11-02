@@ -55,8 +55,8 @@ const Toolbar = () => {
   };
 
   const buttonClass = "w-6 h-6 flex items-center justify-center rounded-md cursor-pointer hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 sm:h-8 sm:w-8"
-  const selectedButtonClass = `${buttonClass} bg-gray-100 dark:bg-slate-900`
-  const iconClass = "w-full h-auto dark:fill-gray-400";
+  const selectedButtonClass = `${buttonClass} bg-gray-200 dark:bg-slate-900`
+  const iconClass = "w-full h-auto fill-gray-600 dark:fill-gray-400";
 
   const blocks = [
     {
