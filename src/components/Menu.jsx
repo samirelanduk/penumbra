@@ -37,7 +37,7 @@ const Menu = props => {
     const isMac = navigator.userAgent.includes("Mac");
     setControl(isMac ? "⌘" : "Ctrl");
     if (!window.showOpenFilePicker) setBrowserSupported(false);
-  })
+  }, [])
 
   const canOpen = browserSupported;
   const text = plainText(document.slate);
