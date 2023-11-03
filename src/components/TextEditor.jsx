@@ -1,7 +1,10 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { Editable } from "slate-react";
+import { PreviewContext } from "@/contexts";
 
 const TextEditor = () => {
+
+  const preview = useContext(PreviewContext);
 
   const H1Element = props => {
     return <h1 {...props.attributes} className="text-color">{props.children}</h1>
@@ -44,14 +47,15 @@ const TextEditor = () => {
     )
   }, [])
 
-  const proseClass = "prose prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4 prose-p:my-4 lg:prose-xl lg:prose-h1:mb-8 lg:prose-h2:mb-6 prose-p:my-5";
+  const proseClass = "prose prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4 prose-p:my-4 prose-p:my-5";
+  const previewClass = preview ? "px-4 py-4" : "px-4 py-4 md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 lg:prose-xl lg:prose-h1:mb-8 lg:prose-h2:mb-6"
   
   return (
     <Editable
-      autoFocus
+      autoFocus={!preview}
       renderElement={renderElement}
       renderLeaf={renderLeaf}
-      className={`flex-grow overflow-y-scroll w-full block px-4 outline-none py-4 bg-inherit resize-none max-w-none md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 dark:text-inherit ${proseClass}`}
+      className={`flex-grow overflow-y-auto w-full block outline-none bg-inherit resize-none max-w-none dark:text-inherit ${previewClass} ${proseClass}`}
     />
   );
 };

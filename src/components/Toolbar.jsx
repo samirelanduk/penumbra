@@ -9,10 +9,13 @@ import H1Icon from "@/images/h1.svg";
 import H2Icon from "@/images/h2.svg";
 import H3Icon from "@/images/h3.svg";
 import { useSlate } from "slate-react";
+import { useContext } from "react";
+import { PreviewContext } from "@/contexts";
 
 const Toolbar = () => {
 
   const editor = useSlate();
+  const preview = useContext(PreviewContext);
 
   const shortcuts = {
     "1": () => toggleBlock(editor, "h1"),
@@ -54,7 +57,7 @@ const Toolbar = () => {
     }
   };
 
-  const buttonClass = "w-6 h-6 flex items-center justify-center rounded-md cursor-pointer hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 sm:h-8 sm:w-8"
+  const buttonClass = `w-6 h-6 flex items-center justify-center rounded-md cursor-pointer hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 ${preview ? "" : "sm:h-8 sm:w-8"}`
   const selectedButtonClass = `${buttonClass} bg-gray-200 dark:bg-slate-900`
   const iconClass = "w-full h-auto fill-gray-600 dark:fill-gray-400";
 
@@ -63,29 +66,29 @@ const Toolbar = () => {
       checker: isBlockActive,
       toggle: toggleBlock,
       buttons: [
-        {type: "p", icon: <ParagraphIcon className={iconClass} />, className: "p-1 sm:p-2"},
-        {type: "h1", icon: <H1Icon className={iconClass} />, className: "sm:p-0.5"},
-        {type: "h2", icon: <H2Icon className={iconClass} />, className: "p-0.5 sm:p-1"},
-        {type: "h3", icon: <H3Icon className={iconClass} />, className: "p-1 sm:p-1.5"}
+        {type: "p", icon: <ParagraphIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-2"}`},
+        {type: "h1", icon: <H1Icon className={iconClass} />, className: preview ? "" : "sm:p-0.5"},
+        {type: "h2", icon: <H2Icon className={iconClass} />, className: `p-0.5 ${preview ? "" : "sm:p-1"}`},
+        {type: "h3", icon: <H3Icon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`}
       ],
     },
     {
       checker: isMarkActive,
       toggle: toggleMark,
       buttons: [
-        {type: "bold", icon: <BoldIcon className={iconClass} />, className: "p-1 sm:p-2"},
-        {type: "italics", icon: <ItalicsIcon className={iconClass} />, className: "p-1 sm:p-2"},
-        {type: "underline", icon: <UnderlineIcon className={iconClass} />, className: "p-1 sm:p-2"},
-        {type: "strikethrough", icon: <StrikethroughIcon className={iconClass} />, className: "p-0.5 sm:p-1.5"}
+        {type: "bold", icon: <BoldIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-2"}`},
+        {type: "italics", icon: <ItalicsIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-2"}`},
+        {type: "underline", icon: <UnderlineIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-2"}`},
+        {type: "strikethrough", icon: <StrikethroughIcon className={iconClass} />, className: `p-0.5 ${preview ? "" : "sm:p-1.5"}`},
       ],
     }
   ];
 
   return (
-    <div className="flex gap-3 w-fit sm:gap-5">
+    <div className={`flex gap-3 w-fit ${preview ? "" : "sm:gap-5"}`}>
       {blocks.map((block, index) => {
         return (
-          <div className="flex gap-1 sm:gap-2" key={index}>
+          <div className={`flex gap-1 ${preview ? "" : "sm:gap-2"}`} key={index}>
             {block.buttons.map(button => {
               const className = block.checker(editor, button.type) ? selectedButtonClass : buttonClass;
               return (
