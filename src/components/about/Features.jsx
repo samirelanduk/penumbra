@@ -48,7 +48,7 @@ const Features = () => {
             Take control of your notes.
           </h2>
           <p className="mt-2 text-lg text-slate-600">
-            Encrypt them with a password, and keep safe them on your device.<br />No servers, no third parties, no subscriptions.
+            Encrypt them with a password, and keep them safe on your device.<br />No servers, no third parties, no subscriptions.
           </p>
         </div>
         <ul role="list" className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3">
