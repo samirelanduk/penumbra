@@ -10,6 +10,7 @@ import { plainText } from "@/serialize";
 import { ReactEditor, useSlate } from "slate-react";
 import { Editor, Transforms } from "slate";
 import BrowserWarning from "./BrowserWarning";
+import Link from "next/link";
 
 const Menu = props => {
 
@@ -146,6 +147,9 @@ const Menu = props => {
         <div className={canClose ? optionClass : disabledOptionClass} onClick={closeClicked}>
           Close
         </div>
+        <Link href="/about" className={optionClass}>
+          About
+        </Link>
       </div>
       {showEncryptModal && (
         <EncryptModal
