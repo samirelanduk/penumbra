@@ -147,9 +147,9 @@ const Menu = props => {
         <div className={canClose ? optionClass : disabledOptionClass} onClick={closeClicked}>
           Close
         </div>
-        <Link href="/about" className={optionClass}>
+        <a href="/about" target="_blank" rel="noopener noreferrer" className={optionClass}>
           About
-        </Link>
+        </a>
       </div>
       {showEncryptModal && (
         <EncryptModal
