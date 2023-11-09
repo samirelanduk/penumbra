@@ -85,7 +85,7 @@ const Toolbar = () => {
   ];
 
   return (
-    <div className={`flex gap-3 w-fit ${preview ? "" : "sm:gap-5"}`}>
+    <div className={`flex gap-3 w-fit ${preview ? "scale-75 -ml-8 sm:scale-100 sm:ml-0" : "sm:gap-5"}`}>
       {blocks.map((block, index) => {
         return (
           <div className={`flex gap-1 ${preview ? "" : "sm:gap-2"}`} key={index}>
