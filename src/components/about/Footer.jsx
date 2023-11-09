@@ -7,7 +7,7 @@ const Footer = () => {
   const linkClass = "w-7 h-auto fill-sky-700 transition duration-500 hover:fill-sky-600";
 
   return (
-    <footer className="border-t bg-slate-700 text-slate-300">
+    <footer className="border-t bg-slate-700 text-slate-300" id="about">
       <div className="mx-auto max-w-7xl px-8 pt-16 pb-10 sm:px-12 lg:px-8">
         <div className="flex items-center text-sky-600 font-bold text-3xl gap-3 w-fit mx-auto mb-10">
           <img src="/favicon.svg" className="w-9" alt="Penumbra logo" />

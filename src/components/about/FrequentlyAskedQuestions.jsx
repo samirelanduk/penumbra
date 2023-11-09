@@ -47,6 +47,7 @@ const FrequentlyAskedQuestions = () => {
 
   return (
     <section
+      id="faqs"
       aria-labelledby="faqs-title"
       className="border-t border-gray-200 py-20 sm:py-32"
     >

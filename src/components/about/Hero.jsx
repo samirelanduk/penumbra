@@ -7,7 +7,7 @@ import Penumbra from "../Penumbra";
 
 const Hero = () => {
   return (
-    <div className="overflow-hidden py-20 sm:py-32 dark:bg-slate-900 lg:pb-32 xl:pb-36">
+    <div className="overflow-hidden pt-10 pb-20 sm:pt-16 sm:pb-32 dark:bg-slate-900 lg:pt-16 lg:pb-32 xl:pt-20 xl:pb-36">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
 
