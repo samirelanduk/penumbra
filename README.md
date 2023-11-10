@@ -26,23 +26,40 @@ Currently only Chrome and Edge support this, though the feature is being impleme
 
 ## Changelog
 
-### v0.4.0 - 30 October, 2023
+### v0.4.1
+
+*10 November, 2023*
+
+- About page.
+- Dockerised.
+- Initial deployment.
+- Fixed icons on light scheme.
+
+### v0.4.0
+
+*30 October, 2023*
 
 - Slate integration.
 - Rich text formatting.
 - Better error modal look.
 
-### v0.3.0 - 22 October, 2023
+### v0.3.0
+
+*22 October, 2023*
 
 - Encryption/decryption.
 - Initial test suite.
 
-### v0.2.0 - 4 October, 2023
+### v0.2.0
+
+*4 October, 2023*
 
 - File saving/loading.
 - Character/word counts.
 
-### v0.1.0 - 29 September, 2023
+### v0.1.0
+
+*29 September, 2023*
 
 - Initial interface.
 - Dark mode.
