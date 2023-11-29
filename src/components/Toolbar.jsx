@@ -8,6 +8,7 @@ import ParagraphIcon from "@/images/paragraph.svg";
 import H1Icon from "@/images/h1.svg";
 import H2Icon from "@/images/h2.svg";
 import H3Icon from "@/images/h3.svg";
+import BulletIcon from "@/images/bullet.svg";
 import { useSlate } from "slate-react";
 import { useContext } from "react";
 import { PreviewContext } from "@/contexts";
@@ -67,9 +68,10 @@ const Toolbar = () => {
       toggle: toggleBlock,
       buttons: [
         {type: "p", icon: <ParagraphIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-2"}`},
+        {type: "ul", icon: <BulletIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
         {type: "h1", icon: <H1Icon className={iconClass} />, className: preview ? "" : "sm:p-0.5"},
         {type: "h2", icon: <H2Icon className={iconClass} />, className: `p-0.5 ${preview ? "" : "sm:p-1"}`},
-        {type: "h3", icon: <H3Icon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`}
+        {type: "h3", icon: <H3Icon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
       ],
     },
     {
