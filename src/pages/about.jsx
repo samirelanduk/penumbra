@@ -13,7 +13,7 @@ export default function About() {
     if (hostnames.includes(currentDomain)) {
       const script = document.createElement("script");
       script.defer = true;
-      script.dataset.domain = "plausible.app";
+      script.dataset.domain = "penumbra.app";
       script.src = "https://plausible.io/js/script.js";
       document.body.appendChild(script);
     }
