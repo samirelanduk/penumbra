@@ -22,6 +22,18 @@ const TextEditor = () => {
     return <blockquote {...props.attributes} className="text-color">{props.children}</blockquote>
   }
 
+  const OrderedListElement = props => {
+    return <ol {...props.attributes} className="text-color">{props.children}</ol>
+  }
+
+  const UnorderedListElement = props => {
+    return <ul {...props.attributes} className="text-color">{props.children}</ul>
+  }
+
+  const ListItemElement = props => {
+    return <li {...props.attributes} className="text-color">{props.children}</li>
+  }
+
   const DefaultElement = props => {
     return <p {...props.attributes}>{props.children}</p>
   }
@@ -32,6 +44,10 @@ const TextEditor = () => {
       case "h2": return <H2Element {...props} />
       case "h3": return <H3Element {...props} />
       case "blockquote": return <BlockQuoteElement {...props} />
+      case "ol": return <OrderedListElement {...props} />
+      case "ul": return <UnorderedListElement {...props} />
+      case "ol-li": return <ListItemElement {...props} />
+      case "ul-li": return <ListItemElement {...props} />
       default: return <DefaultElement {...props} />
     }
   }, [])
