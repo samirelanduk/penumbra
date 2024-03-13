@@ -18,6 +18,10 @@ const TextEditor = () => {
     return <h3 {...props.attributes} className="text-color">{props.children}</h3>
   }
 
+  const BlockQuoteElement = props => {
+    return <blockquote {...props.attributes} className="text-color">{props.children}</blockquote>
+  }
+
   const DefaultElement = props => {
     return <p {...props.attributes}>{props.children}</p>
   }
@@ -27,6 +31,7 @@ const TextEditor = () => {
       case "h1": return <H1Element {...props} />
       case "h2": return <H2Element {...props} />
       case "h3": return <H3Element {...props} />
+      case "blockquote": return <BlockQuoteElement {...props} />
       default: return <DefaultElement {...props} />
     }
   }, [])
