@@ -34,6 +34,14 @@ const TextEditor = () => {
     return <li {...props.attributes} className="text-color">{props.children}</li>
   }
 
+  const CodeElement = props => {
+    return (
+      <pre {...props.attributes}>
+        <code>{props.children}</code>
+      </pre>
+    )
+  }
+
   const DefaultElement = props => {
     return <p {...props.attributes}>{props.children}</p>
   }
@@ -48,6 +56,7 @@ const TextEditor = () => {
       case "ul": return <UnorderedListElement {...props} />
       case "ol-li": return <ListItemElement {...props} />
       case "ul-li": return <ListItemElement {...props} />
+      case "code": return <CodeElement {...props} />
       default: return <DefaultElement {...props} />
     }
   }, [])
