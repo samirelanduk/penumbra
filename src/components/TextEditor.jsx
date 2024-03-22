@@ -1,63 +1,31 @@
 import { useCallback, useContext } from "react";
 import { Editable } from "slate-react";
 import { PreviewContext } from "@/contexts";
+import Paragraph from "./Paragraph";
+import H1 from "./H1";
+import H2 from "./H2";
+import H3 from "./H3";
+import Blockquote from "./Blockquote";
+import OrderedList from "./OrderedList";
+import UnorderedList from "./UnorderedList";
+import ListItem from "./ListItem";
+import Code from "./Code";
 
 const TextEditor = () => {
 
   const preview = useContext(PreviewContext);
 
-  const H1Element = props => {
-    return <h1 {...props.attributes} className="text-color">{props.children}</h1>
-  }
-
-  const H2Element = props => {
-    return <h2 {...props.attributes} className="text-color">{props.children}</h2>
-  }
-
-  const H3Element = props => {
-    return <h3 {...props.attributes} className="text-color">{props.children}</h3>
-  }
-
-  const BlockQuoteElement = props => {
-    return <blockquote {...props.attributes} className="text-color">{props.children}</blockquote>
-  }
-
-  const OrderedListElement = props => {
-    return <ol {...props.attributes} className="text-color">{props.children}</ol>
-  }
-
-  const UnorderedListElement = props => {
-    return <ul {...props.attributes} className="text-color">{props.children}</ul>
-  }
-
-  const ListItemElement = props => {
-    return <li {...props.attributes} className="text-color">{props.children}</li>
-  }
-
-  const CodeElement = props => {
-    return (
-      <pre {...props.attributes}>
-        <code>{props.children}</code>
-      </pre>
-    )
-  }
-
-  const DefaultElement = props => {
-    return <p {...props.attributes}>{props.children}</p>
-  }
-
   const renderElement = useCallback(props => {
     switch (props.element.type) {
-      case "h1": return <H1Element {...props} />
-      case "h2": return <H2Element {...props} />
-      case "h3": return <H3Element {...props} />
-      case "blockquote": return <BlockQuoteElement {...props} />
-      case "ol": return <OrderedListElement {...props} />
-      case "ul": return <UnorderedListElement {...props} />
-      case "ol-li": return <ListItemElement {...props} />
-      case "ul-li": return <ListItemElement {...props} />
-      case "code": return <CodeElement {...props} />
-      default: return <DefaultElement {...props} />
+      case "h1": return <H1 {...props} />
+      case "h2": return <H2 {...props} />
+      case "h3": return <H3 {...props} />
+      case "blockquote": return <Blockquote {...props} />
+      case "ol": return <OrderedList {...props} />
+      case "ul": return <UnorderedList {...props} />
+      case "li": return <ListItem {...props} />
+      case "code": return <Code {...props} />
+      default: return <Paragraph {...props} />
     }
   }, [])
 
