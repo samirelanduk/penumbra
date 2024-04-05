@@ -10,6 +10,7 @@ import OrderedList from "./OrderedList";
 import UnorderedList from "./UnorderedList";
 import ListItem from "./ListItem";
 import Code from "./Code";
+import CodeLine from "./CodeLine";
 
 const TextEditor = () => {
 
@@ -25,6 +26,7 @@ const TextEditor = () => {
       case "ul": return <UnorderedList {...props} />
       case "li": return <ListItem {...props} />
       case "code": return <Code {...props} />
+      case "code-line": return <CodeLine {...props} />
       default: return <Paragraph {...props} />
     }
   }, [])

@@ -5,7 +5,7 @@ const Code = props => {
   const { attributes } = props;
 
   return (
-    <pre {...attributes}>
+    <pre {...attributes} className="dark:bg-slate-700">
       <code>{props.children}</code>
     </pre>
   )
