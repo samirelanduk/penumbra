@@ -802,7 +802,6 @@ describe("toggleComplexBlock", () => {
       focus: { path: [3, 0, 0], offset: 1 },
     };
     toggleComplexBlock(editor, "ul", "li");
-    console.log(JSON.stringify(editor.children, null, 2));
     expect(editor.children).toEqual([
       {type: "h1", children: [{text: "Title"}]},
       {type: "p", children: [{text: "Paragraph 2"}]},
