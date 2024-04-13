@@ -26,7 +26,7 @@ const TextEditor = () => {
       case "ul": return <UnorderedList {...props} />
       case "li": return <ListItem {...props} />
       case "code": return <Code {...props} />
-      case "code-line": return <CodeLine {...props} />
+      case "codeline": return <CodeLine {...props} />
       default: return <Paragraph {...props} />
     }
   }, [])

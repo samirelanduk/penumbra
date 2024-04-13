@@ -1,5 +1,5 @@
 import { useFormattingShortcuts } from "@/hooks";
-import { Transforms, Editor } from "slate";
+import { isMarkActive, isBlockActive, toggleMark, toggleSimpleBlock, toggleComplexBlock } from "@/toolbar";
 import BoldIcon from "@/images/bold.svg";
 import ItalicsIcon from "@/images/italics.svg";
 import UnderlineIcon from "@/images/underline.svg";
@@ -15,17 +15,18 @@ import CodeIcon from "@/images/code.svg";
 import { useSlate } from "slate-react";
 import { useContext } from "react";
 import { PreviewContext } from "@/contexts";
+import ToolbarButton from "./ToolbarButton";
 
 const Toolbar = () => {
 
   const editor = useSlate();
   const preview = useContext(PreviewContext);
-
+  
   const shortcuts = {
-    "1": () => toggleBlock(editor, "h1"),
-    "2": () => toggleBlock(editor, "h2"),
-    "3": () => toggleBlock(editor, "h3"),
-    "`": () => toggleBlock(editor, "code"),
+    "1": () => toggleSimpleBlock(editor, "h1"),
+    "2": () => toggleSimpleBlock(editor, "h2"),
+    "3": () => toggleSimpleBlock(editor, "h3"),
+    "`": () => toggleComplexBlock(editor, "code", "codeline"),
     "b": () => toggleMark(editor, "bold"),
     "i": () => toggleMark(editor, "italics"),
     "u": () => toggleMark(editor, "underline"),
@@ -35,87 +36,46 @@ const Toolbar = () => {
 
   useFormattingShortcuts(editor, shortcuts);
 
-  const isBlockActive = (editor, format) => {
-    const [match] = Editor.nodes(editor, {
-      match: n => !Editor.isEditor(n) && Editor.isBlock(editor, n) && n.type === format,
-    });
-    return !!match;
-  };
-
-  const isMarkActive = (editor, format) => {
-    const marks = Editor.marks(editor);
-    return marks ? marks[format] === true : false;
-  };
-
-  const toggleBlock = (editor, format) => {
-    const isActive = isBlockActive(editor, format);
-    const newProperties = {type: isActive ? "p" : format};
-    Transforms.setNodes(editor, newProperties);
-  };
-
-  const toggleMark = (editor, format) => {
-    const isActive = isMarkActive(editor, format);
-    if (isActive) {
-      Editor.removeMark(editor, format);
-    } else {
-      Editor.addMark(editor, format, true);
-    }
-  };
-
-  const buttonClass = `w-6 h-6 flex items-center justify-center rounded-md cursor-pointer hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-900 ${preview ? "" : "sm:h-8 sm:w-8"}`
-  const selectedButtonClass = `${buttonClass} bg-gray-200 dark:bg-slate-900`
-  const iconClass = "w-full h-auto fill-gray-600 dark:fill-gray-400";
-
-  const blocks = [
-    {
-      checker: isBlockActive,
-      toggle: toggleBlock,
-      buttons: [
-        {type: "p", icon: <ParagraphIcon className={iconClass} />, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
-        {type: "ul", icon: <BulletIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
-        {type: "ol", icon: <NumberIcon className={iconClass} />, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
-        {type: "blockquote", icon: <QuoteIcon className={iconClass} />, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
-        {type: "code", icon: <CodeIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
-        {type: "h1", icon: <H1Icon className={iconClass} />, className: preview ? "" : "sm:p-0.5"},
-        {type: "h2", icon: <H2Icon className={iconClass} />, className: `p-0.5 ${preview ? "" : "sm:p-1"}`},
-        {type: "h3", icon: <H3Icon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
-      ],
-    },
-    {
-      checker: isMarkActive,
-      toggle: toggleMark,
-      buttons: [
-        {type: "bold", icon: <BoldIcon className={iconClass} />, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
-        {type: "italics", icon: <ItalicsIcon className={iconClass} />, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
-        {type: "underline", icon: <UnderlineIcon className={iconClass} />, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
-        {type: "strikethrough", icon: <StrikethroughIcon className={iconClass} />, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
-      ],
-    }
-  ];
+  const sections = [
+    [
+      {isActive: () => isBlockActive(editor, "p"), toggle: () => toggleSimpleBlock(editor, "p"), Icon: ParagraphIcon, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
+      {isActive: () => isBlockActive(editor, "h1"), toggle: () => toggleSimpleBlock(editor, "h1"), Icon: H1Icon, className: preview ? "" : "sm:p-0.5"},
+      {isActive: () => isBlockActive(editor, "h2"), toggle: () => toggleSimpleBlock(editor, "h2"), Icon: H2Icon, className: `p-0.5 ${preview ? "" : "sm:p-1"}`},
+      {isActive: () => isBlockActive(editor, "h3"), toggle: () => toggleSimpleBlock(editor, "h3"), Icon: H3Icon, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
+      {isActive: () => isBlockActive(editor, "code"), toggle: () => toggleComplexBlock(editor, "code", "codeline"), Icon: CodeIcon, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
+      {isActive: () => isBlockActive(editor, "ul"), toggle: () => toggleComplexBlock(editor, "ul", "li"), Icon: BulletIcon, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
+      {isActive: () => isBlockActive(editor, "ol"), toggle: () => toggleComplexBlock(editor, "ol", "li"), Icon: NumberIcon, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
+      {isActive: () => isBlockActive(editor, "blockquote"), toggle: () => toggleComplexBlock(editor, "blockquote", "p"), Icon: QuoteIcon, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
+    ],
+    [
+      {isActive: () => isMarkActive(editor, "bold"), toggle: () => toggleMark(editor, "bold"), Icon: BoldIcon, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
+      {isActive: () => isMarkActive(editor, "italics"), toggle: () => toggleMark(editor, "italics"), Icon: ItalicsIcon, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
+      {isActive: () => isMarkActive(editor, "underline"), toggle: () => toggleMark(editor, "underline"), Icon: UnderlineIcon, className: `p-1.5 ${preview ? "" : "sm:p-2"}`},
+      {isActive: () => isMarkActive(editor, "strikethrough"), toggle: () => toggleMark(editor, "strikethrough"), Icon: StrikethroughIcon, className: `p-1 ${preview ? "" : "sm:p-1.5"}`},
+    ]
+  ]
 
   return (
-    <div className={`flex flex-col gap-x-3 gap-y-1.5 w-fit sm:flex-row ${preview ? "scale-75 -ml-8 sm:flex-col sm:scale-100 sm:ml-0" : "sm:gap-5"}`}>
-      {blocks.map((block, index) => {
-        return (
-          <div className={`flex gap-1 ${preview ? "" : "sm:gap-2"}`} key={index}>
-            {block.buttons.map(button => {
-              const className = block.checker(editor, button.type) ? selectedButtonClass : buttonClass;
-              return (
-                <div
-                  className={`${className} ${button.className}`}
-                  onMouseDown={e => {
-                    e.preventDefault();
-                    block.toggle(editor, button.type);
-                  }}
-                  key={button.type}
-                >
-                  {button.icon}
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+    <div>
+      <div className={`flex flex-col gap-x-3 gap-y-1.5 w-fit sm:flex-row ${preview ? "scale-75 -ml-8 sm:flex-col sm:scale-100 sm:ml-0" : "sm:gap-5"}`}>
+        {sections.map((section, index) => {
+          return (
+            <div className={`flex gap-1 ${preview ? "" : "sm:gap-2"}`} key={index}>
+              {section.map((button, index) => {
+                return (
+                  <ToolbarButton
+                    key={index}
+                    isActive={button.isActive}
+                    toggle={button.toggle}
+                    Icon={button.Icon}
+                    className={button.className}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
