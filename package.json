@@ -21,6 +21,7 @@
     "slate-react": "^0.100.0"
   },
   "devDependencies": {
+    "@peculiar/webcrypto": "^1.4.6",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/typography": "^0.5.10",
     "@testing-library/jest-dom": "^6.1.4",

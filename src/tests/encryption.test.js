@@ -1,4 +1,4 @@
-import { Crypto } from "node-webcrypto-ossl";
+import { Crypto } from "@peculiar/webcrypto";
 import util from "util";
 import {
   derivePasswordKey, encryptDocument, numberToUint8Array32, encodeEncryptedDataAsBytestring,
