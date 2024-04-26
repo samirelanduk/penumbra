@@ -26,6 +26,15 @@ Currently only Chrome and Edge support this, though the feature is being impleme
 
 ## Changelog
 
+### v0.5.0
+
+*26 April, 2024*
+
+- Added list blocks.
+- Added code blocks.
+- Added quote blocks.
+- Better line break handling.
+
 ### v0.4.1
 
 *10 November, 2023*
