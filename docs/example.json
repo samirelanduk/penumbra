@@ -1,0 +1,305 @@
+[
+    {
+      "type": "h1",
+      "children": [
+        {
+          "text": "Title of the document"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "The opening paragraph. It is just normal text."
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "children": [
+        {
+          "text": "The first section"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "The opening paragraph of this initial section. It has"
+        },
+        {
+          "text": " bold",
+          "bold": true
+        },
+        {
+          "text": " and"
+        },
+        {
+          "text": " italic",
+          "italics": true
+        },
+        {
+          "text": " text. Text can also be "
+        },
+        {
+          "text": "underlined",
+          "underline": true
+        },
+        {
+          "text": " or "
+        },
+        {
+          "text": "crossed out",
+          "strikethrough": true
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "It has normal text too."
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "children": [
+        {
+          "text": "Second section"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "children": [
+        {
+          "text": "A subsection"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "This section has subsections - currently you can only go this deep. It also has an inspiring quote:"
+        }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "children": [
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "One thing seems certain. Our galaxy is now in the brief springtime of its life—a springtime made glorious by such brilliant blue-white stars as Vega and Sirius, and, on a more humble scale, our own Sun. Not until all these have flamed through their incandescent youth, in a few fleeting billions of years, will the real history of the universe begin."
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "It will be a history illuminated only by the reds and infrareds of dully glowing stars that would be almost invisible to our eyes; yet the sombre hues of that all-but-eternal universe may be full of colour and beauty to whatever strange beings have adapted to it. They will know that before them lie, not the millions of years in which we measure eras of geology, nor the billions of years which span the past lives of the stars, but years to be counted literally in the trillions."
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": "They will have time enough, in those endless aeons, to attempt all things, and to gather all knowledge. They will be like gods, because no gods imagined by our minds have ever possessed the powers they will command. But for all that, they may envy us, basking in the bright afterglow of creation; for we knew the universe when it was young."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "children": [
+        {
+          "text": "Some lists"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "We can have bullet points..."
+        }
+      ]
+    },
+    {
+      "type": "ul",
+      "children": [
+        {
+          "type": "ul-li",
+          "children": [
+            {
+              "text": "The first bullet."
+            }
+          ]
+        },
+        {
+          "type": "ul-li",
+          "children": [
+            {
+              "text": "The second bullet."
+            }
+          ]
+        },
+        {
+          "type": "ul-li",
+          "children": [
+            {
+              "text": "The third bullet."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "...and numbered lists..."
+        }
+      ]
+    },
+    {
+      "type": "ol",
+      "children": [
+        {
+          "type": "ol-li",
+          "children": [
+            {
+              "text": "The first item."
+            }
+          ]
+        },
+        {
+          "type": "ol-li",
+          "children": [
+            {
+              "text": "The "
+            },
+            {
+              "text": "2nd",
+              "strikethrough": true
+            },
+            {
+              "text": " "
+            },
+            {
+              "text": "second",
+              "bold": true,
+              "italics": true,
+              "underline": true
+            },
+            {
+              "text": " item."
+            }
+          ]
+        },
+        {
+          "type": "ol-li",
+          "children": [
+            {
+              "text": "The third item."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "children": [
+        {
+          "text": "Codebase"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "Here is the code that runs Penumbra. It is very advanced."
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "children": [
+        {
+          "type": "codeline",
+          "children": [
+            {
+              "text": "const penumbra = {excellence: true};"
+            }
+          ]
+        },
+        {
+          "type": "codeline",
+          "children": [
+            {
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "codeline",
+          "children": [
+            {
+              "text": "// Here's the hard bit"
+            }
+          ]
+        },
+        {
+          "type": "codeline",
+          "children": [
+            {
+              "text": "console.log(penumbra);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "children": [
+        {
+          "text": "Other codebases are supported."
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "children": [
+        {
+          "type": "codeline",
+          "children": [
+            {
+              "text": "import penumbra"
+            }
+          ]
+        },
+        {
+          "type": "codeline",
+          "children": [
+            {
+              "text": "penumbra.run()"
+            }
+          ]
+        }
+      ]
+    }
+  ]
