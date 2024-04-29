@@ -11,6 +11,7 @@ import { ReactEditor, useSlate } from "slate-react";
 import { Editor, Transforms } from "slate";
 import BrowserWarning from "./BrowserWarning";
 import Link from "next/link";
+import SettingsModal from "./SettingsModal";
 
 const Menu = props => {
 
@@ -21,6 +22,7 @@ const Menu = props => {
   const [browserSupported, setBrowserSupported] = useState(true);
   const [showEncryptModal, setShowEncryptModal] = useState(false);
   const [encryptedBytestring, setEncryptedBytestring] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
   const [openedFileHandle, setOpenedFileHandle] = useState(null);
   const [error, setError] = useState("");
   const editor = useSlate();
@@ -144,6 +146,9 @@ const Menu = props => {
         <div className={canSaveAs ? optionClass : disabledOptionClass} onClick={saveAsClicked}>
           Save As <span className={controlClass}>{control} ⇧ S</span>
         </div>
+        <div className={optionClass} onClick={() => setShowSettings(true)}>
+          Settings
+        </div>
         <div className={canClose ? optionClass : disabledOptionClass} onClick={closeClicked}>
           Close
         </div>
@@ -168,6 +173,7 @@ const Menu = props => {
         />
       )}
       {error && <ErrorModal message={error} setShow={setError} />}
+      {showSettings && <SettingsModal setShow={setShowSettings} />}
     </div>
   );
 };
