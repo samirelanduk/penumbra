@@ -8,8 +8,8 @@ import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 import { withPenumbraCommands } from "@/commands";
-import { useWarnUnsavedChanges, useDocumentTitle } from "@/hooks";
-import { PreviewContext } from "@/contexts";
+import { useWarnUnsavedChanges, useDocumentTitle, useSettings } from "@/hooks";
+import { PreviewContext, SettingsContext } from "@/contexts";
 
 const Penumbra = props => {
   
@@ -17,6 +17,7 @@ const Penumbra = props => {
   
   const [document, setDocument] = useState(makeDocument());
   const [editor] = useState(() => withReact(withPenumbraCommands(withHistory(createEditor()))));
+  const [settings, setSettings] = useSettings();
 
   useWarnUnsavedChanges(document);
   useDocumentTitle(document);
@@ -27,13 +28,15 @@ const Penumbra = props => {
 
   return (
     <PreviewContext.Provider value={preview}>
-      <Slate editor={editor} initialValue={document.slate} onChange={onChange}>
-        <div className={`flex h-full flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200 ${preview ? "pt-2" : ""}`}>
-          <TopRow document={document} setDocument={setDocument} />
-          <TextEditor />
-          <BottomRow document={document} />
-        </div>
-      </Slate>
+      <SettingsContext.Provider value={[settings, setSettings]}>
+        <Slate editor={editor} initialValue={document.slate} onChange={onChange}>
+          <div className={`flex h-full flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200 ${preview ? "pt-2" : ""}`}>
+            <TopRow document={document} setDocument={setDocument} />
+            <TextEditor />
+            <BottomRow document={document} />
+          </div>
+        </Slate>
+      </SettingsContext.Provider>
     </PreviewContext.Provider>
   );
 };

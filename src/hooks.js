@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { plainText } from "./serialize";
 
 export const useWarnUnsavedChanges = document => {
@@ -66,4 +66,34 @@ export const useFormattingShortcuts = (editor, shortcuts) => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [editor, shortcuts]);
+}
+
+
+export const useSettings = () => {
+  /**
+   * This hook initialises global settings from localStorage, and provides a
+   * function to update them that also updates localStorage.
+   */
+
+  const defaultFont = "Mulish";
+  const defaultDarkMode = "system";
+
+  const [settings, setSettings] = useState({
+    font: defaultFont,
+    darkMode: defaultDarkMode,
+  });
+
+  useEffect(() => {
+    setSettings({
+      font: localStorage.getItem("font") || defaultFont,
+      darkMode: localStorage.getItem("darkMode") || defaultDarkMode,
+    });
+  }, []);
+
+  const updateSettings = (key, value) => {
+    localStorage.setItem(key, value);
+    setSettings({...settings, [key]: value});
+  };
+
+  return [settings, updateSettings];
 }
