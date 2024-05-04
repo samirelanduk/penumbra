@@ -77,16 +77,25 @@ export const useSettings = () => {
 
   const defaultFont = "Mulish";
   const defaultDarkMode = "system";
+  const defaultTextSize = "medium";
+  const defaultShowWordCount = true;
+  const defaultShowCharacterCount = true;
 
   const [settings, setSettings] = useState({
     font: defaultFont,
     darkMode: defaultDarkMode,
+    textSize: defaultTextSize,
+    showWordCount: defaultShowWordCount,
+    showCharacterCount: defaultShowCharacterCount,
   });
 
   useEffect(() => {
     setSettings({
       font: localStorage.getItem("font") || defaultFont,
       darkMode: localStorage.getItem("darkMode") || defaultDarkMode,
+      textSize: localStorage.getItem("textSize") || defaultTextSize,
+      showWordCount: JSON.parse(localStorage.getItem("showWordCount")) ?? defaultShowWordCount,
+      showCharacterCount: JSON.parse(localStorage.getItem("showCharacterCount")) ?? defaultShowCharacterCount,
     });
   }, []);
 
