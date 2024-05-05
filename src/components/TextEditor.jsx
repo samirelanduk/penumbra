@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { Editable } from "slate-react";
-import { PreviewContext } from "@/contexts";
+import { PreviewContext, SettingsContext } from "@/contexts";
 import Paragraph from "./Paragraph";
 import H1 from "./H1";
 import H2 from "./H2";
@@ -15,6 +15,8 @@ import CodeLine from "./CodeLine";
 const TextEditor = () => {
 
   const preview = useContext(PreviewContext);
+
+  const [settings,] = useContext(SettingsContext);
 
   const renderElement = useCallback(props => {
     switch (props.element.type) {
@@ -47,15 +49,22 @@ const TextEditor = () => {
     )
   }, [])
 
-  const proseClass = "prose prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4 prose-p:my-4 prose-p:my-5";
-  const previewClass = preview ? "px-4 py-4" : "px-4 py-4 md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 lg:prose-xl lg:prose-h1:mb-8 lg:prose-h2:mb-6"
-  
+  const previewClass = preview ? "px-4 py-4" : "px-4 py-4 md:px-[calc((100vw-738px)/2)] md:py-6 lg:px-[calc((100vw-800px)/2)] lg:py-8 lg:prose-h1:mb-8 lg:prose-h2:mb-6"
+
+  const proseClass = {
+    large: "prose prose-lg lg:prose-2xl prose-p:my-5 prose-p:my-6",
+    medium: "prose lg:prose-xl prose-p:my-4 prose-p:my-5",
+    small: "prose prose-sm lg:prose-base prose-p:my-3 prose-p:my-4",
+  }[settings.textSize];
+
+  const fullProseClass = `${proseClass} prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4`;
+
   return (
     <Editable
       autoFocus={!preview}
       renderElement={renderElement}
       renderLeaf={renderLeaf}
-      className={`flex-grow overflow-y-auto w-full block outline-none bg-inherit resize-none max-w-none dark:text-inherit ${previewClass} ${proseClass}`}
+      className={`flex-grow overflow-y-auto w-full block outline-none bg-inherit resize-none max-w-none dark:text-inherit ${previewClass} ${fullProseClass}`}
     />
   );
 };
