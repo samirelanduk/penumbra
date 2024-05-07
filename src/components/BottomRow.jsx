@@ -1,14 +1,22 @@
 import PropTypes from "prop-types";
 import { countWords } from "@/utils";
 import { plainText } from "@/serialize";
+import { useContext } from "react";
+import { SettingsContext } from "@/contexts";
 
 const BottomRow = props => {
 
   const { document } = props;
 
+  const [{showWordCount, showCharacterCount},] = useContext(SettingsContext);
+
+  const className = "w-full border-t h-10 flex flex-shrink-0 justify-between text-sm text-gray-500 px-4 dark:border-gray-600 dark:text-gray-400";
+
+  if (!showCharacterCount && !showWordCount) return <div className={className} />;
+
   const text = plainText(document.slate);
   const charCount = text.length;
-  const wordCount = countWords(text);
+  const wordCount = showWordCount ? countWords(text) : 0;
 
   const charDiff = document?.name ? charCount - document.initialCharacterCount : null;
   const wordDiff = document?.name ? wordCount - document.initialWordCount : null;
@@ -20,12 +28,12 @@ const BottomRow = props => {
   return (
     <div className="w-full border-t h-10 flex flex-shrink-0 justify-between text-sm text-gray-500 px-4 dark:border-gray-600 dark:text-gray-400">
       <div className="flex items-center">
-        <div>{charCount.toLocaleString()} character{charCount === 1 ? "" : "s"} </div>
-        <div className="mx-2">|</div>
-        <div>{wordCount.toLocaleString()} word{wordCount === 1 ? "" : "s"}</div>
+        {showCharacterCount && <div>{charCount.toLocaleString()} character{charCount === 1 ? "" : "s"} </div>}
+        {showCharacterCount && showWordCount && <div className="mx-2">|</div>}
+        {showWordCount && <div>{wordCount.toLocaleString()} word{wordCount === 1 ? "" : "s"}</div>}
       </div>
       <div className="flex items-center">
-        {Boolean(charDiff) && (
+        {Boolean(charDiff) && showCharacterCount && (
           <div className="flex items-center">
             <div className={charDiff > 0 ? greenClass : redClass}>
               {charDiff > 0 ? "+" : ""}
@@ -34,8 +42,8 @@ const BottomRow = props => {
             <div className={neutralClass}>character{charDiff === 1 ? "" : "s"}</div>
           </div>
         )}
-        {Boolean(charDiff) && Boolean(wordDiff) && <div className="mx-2 text-gray-400">|</div>}
-        {Boolean(wordDiff) && (
+        {Boolean(charDiff) && Boolean(wordDiff) && showCharacterCount && showWordCount && <div className="mx-2 text-gray-400">|</div>}
+        {Boolean(wordDiff) && showWordCount && (
           <div className="flex items-center">
             <div className={wordDiff > 0 ? greenClass : redClass}>
               {wordDiff > 0 ? "+" : ""}
