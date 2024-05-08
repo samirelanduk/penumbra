@@ -10,6 +10,8 @@ module.exports = {
         sans: ["var(--font-mulish)"],
         mulish: ["var(--font-mulish)"],
         merriweather: ["var(--font-merriweather)"],
+        robotoslab: ["var(--font-roboto-slab)"],
+        inter: ["var(--font-inter)"],
       },
       animation: {
         "fade-in": "fade-in 0.5s linear forwards",

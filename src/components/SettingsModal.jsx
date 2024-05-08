@@ -10,6 +10,8 @@ const SettingsModal = props => {
   const fonts = [
     "Mulish",
     "Merriweather",
+    "Roboto Slab",
+    "Inter",
   ]
 
   const [settings, setSettings] = useContext(SettingsContext);

@@ -11,7 +11,7 @@ import UnorderedList from "./UnorderedList";
 import ListItem from "./ListItem";
 import Code from "./Code";
 import CodeLine from "./CodeLine";
-import { Merriweather, Mulish } from "next/font/google";
+import { Inter, Merriweather, Mulish, Roboto_Slab } from "next/font/google";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -24,6 +24,20 @@ const merriweather = Merriweather({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-merriweather",
+  weight: ["400", "700"]
+})
+
+const robotoSlab = Roboto_Slab({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-slab",
+  weight: ["400", "700"]
+})
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
   weight: ["400", "700"]
 })
 
@@ -75,6 +89,8 @@ const TextEditor = () => {
   const fontClass = {
     Mulish: `${mulish.variable} font-mulish`,
     Merriweather: `${merriweather.variable} font-merriweather`,
+    "Roboto Slab": `${robotoSlab.variable} font-robotoslab`,
+    Inter: `${inter.variable} font-inter`,
   }[settings.font];
 
   const fullProseClass = `${proseClass} prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4`;
