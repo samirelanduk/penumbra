@@ -12,6 +12,8 @@ module.exports = {
         merriweather: ["var(--font-merriweather)"],
         robotoslab: ["var(--font-roboto-slab)"],
         inter: ["var(--font-inter)"],
+        playfairdisplay: ["var(--font-playfair-display)"],
+        kanit: ["var(--font-kanit)"],
       },
       animation: {
         "fade-in": "fade-in 0.5s linear forwards",

@@ -11,7 +11,7 @@ import UnorderedList from "./UnorderedList";
 import ListItem from "./ListItem";
 import Code from "./Code";
 import CodeLine from "./CodeLine";
-import { Inter, Merriweather, Mulish, Roboto_Slab } from "next/font/google";
+import { Inter, Kanit, Merriweather, Mulish, Playfair_Display, Roboto_Slab } from "next/font/google";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -19,6 +19,21 @@ const mulish = Mulish({
   variable: "--font-mulish",
   weight: ["400", "700"]
 })
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+  weight: ["400", "700"]
+})
+
+const kanit = Kanit({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-kanit",
+  weight: ["400", "700"]
+})
+
 
 const merriweather = Merriweather({
   subsets: ["latin"],
@@ -34,10 +49,10 @@ const robotoSlab = Roboto_Slab({
   weight: ["400", "700"]
 })
 
-const inter = Inter({
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-playfair-display",
   weight: ["400", "700"]
 })
 
@@ -91,6 +106,8 @@ const TextEditor = () => {
     Merriweather: `${merriweather.variable} font-merriweather`,
     "Roboto Slab": `${robotoSlab.variable} font-robotoslab`,
     Inter: `${inter.variable} font-inter`,
+    "Playfair Display": `${playfairDisplay.variable} font-playfairdisplay`,
+    Kanit: `${kanit.variable} font-kanit`,
   }[settings.font];
 
   const fullProseClass = `${proseClass} prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4`;
