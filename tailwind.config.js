@@ -8,6 +8,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["var(--font-mulish)"],
+        mulish: ["var(--font-mulish)"],
+        merriweather: ["var(--font-merriweather)"],
       },
       animation: {
         "fade-in": "fade-in 0.5s linear forwards",

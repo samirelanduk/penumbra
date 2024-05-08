@@ -11,6 +11,21 @@ import UnorderedList from "./UnorderedList";
 import ListItem from "./ListItem";
 import Code from "./Code";
 import CodeLine from "./CodeLine";
+import { Merriweather, Mulish } from "next/font/google";
+
+const mulish = Mulish({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mulish",
+  weight: ["400", "700"]
+})
+
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-merriweather",
+  weight: ["400", "700"]
+})
 
 const TextEditor = () => {
 
@@ -57,6 +72,11 @@ const TextEditor = () => {
     small: "prose prose-sm lg:prose-base prose-p:my-3 prose-p:my-4",
   }[settings.textSize];
 
+  const fontClass = {
+    Mulish: `${mulish.variable} font-mulish`,
+    Merriweather: `${merriweather.variable} font-merriweather`,
+  }[settings.font];
+
   const fullProseClass = `${proseClass} prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4`;
 
   return (
@@ -64,7 +84,7 @@ const TextEditor = () => {
       autoFocus={!preview}
       renderElement={renderElement}
       renderLeaf={renderLeaf}
-      className={`flex-grow overflow-y-auto w-full block outline-none bg-inherit resize-none max-w-none dark:text-inherit ${previewClass} ${fullProseClass}`}
+      className={`flex-grow overflow-y-auto w-full block outline-none bg-inherit resize-none max-w-none dark:text-inherit ${previewClass} ${fullProseClass} ${fontClass}`}
     />
   );
 };
