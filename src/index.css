@@ -9,7 +9,7 @@
 }
 
 @layer utilities {
-  .text-color {
-    @apply dark:text-slate-200;
+  .dark .text-color {
+    @apply text-slate-200;
   }
 }

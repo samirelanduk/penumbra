@@ -106,3 +106,21 @@ export const useSettings = () => {
 
   return [settings, updateSettings];
 }
+
+
+export const useDarkMode = settings => {
+  /**
+   * This hook returns a boolean indicating whether dark mode is enabled based
+   * on the global settings and the user's system preferences.
+   */
+
+  const [systemPrefersDarkMode, setSystemPrefersDarkMode] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    if (settings.darkMode === "system") setSystemPrefersDarkMode(mql.matches);
+    mql.addEventListener("change", () => setSystemPrefersDarkMode(mql.matches));
+  }, [settings.darkMode]);
+  if (settings.darkMode === "off") return false;
+  if (settings.darkMode === "on") return true;
+  if (settings.darkMode === "system") return systemPrefersDarkMode;
+}
