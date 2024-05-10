@@ -35,7 +35,7 @@ const Penumbra = props => {
           <div className={`h-full ${darkModeClass}`}>
             <div className={`flex h-full flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200 ${preview ? "pt-2" : ""}`}>
               <TopRow document={document} setDocument={setDocument} />
-              <TextEditor />
+              <TextEditor document={document} />
               <BottomRow document={document} />
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { useCallback, useContext } from "react";
+import PropTypes from "prop-types";
 import { Editable } from "slate-react";
 import { PreviewContext, SettingsContext } from "@/contexts";
 import Paragraph from "./Paragraph";
@@ -56,7 +57,9 @@ const playfairDisplay = Playfair_Display({
   weight: ["400", "700"]
 })
 
-const TextEditor = () => {
+const TextEditor = props => {
+
+  const { document } = props;
 
   const preview = useContext(PreviewContext);
 
@@ -99,7 +102,7 @@ const TextEditor = () => {
     large: "prose prose-lg lg:prose-2xl prose-p:my-5 prose-p:my-6",
     medium: "prose lg:prose-xl prose-p:my-4 prose-p:my-5",
     small: "prose prose-sm lg:prose-base prose-p:my-3 prose-p:my-4",
-  }[settings.textSize];
+  }[document.settings.textSize || settings.textSize];
 
   const fontClass = {
     Mulish: `${mulish.variable} font-mulish`,
@@ -108,7 +111,7 @@ const TextEditor = () => {
     Inter: `${inter.variable} font-inter`,
     "Playfair Display": `${playfairDisplay.variable} font-playfairdisplay`,
     Kanit: `${kanit.variable} font-kanit`,
-  }[settings.font];
+  }[document.settings.font || settings.font];
 
   const fullProseClass = `${proseClass} prose-h1:mb-0 prose-h2:mb-4 prose-h2:mt-8 prose-h3:mt-4`;
 
@@ -123,7 +126,7 @@ const TextEditor = () => {
 };
 
 TextEditor.propTypes = {
-
+  document: PropTypes.object.isRequired,
 };
 
 export default TextEditor;

@@ -40,7 +40,13 @@ describe("makeDocument", () => {
       initialCharacterCount: 0,
       initialWordCount: 0,
       password: null,
-      fileHandle: null
+      fileHandle: null,
+      settings: {
+        font: null,
+        textSize: null,
+        showWordCount: null,
+        showCharacterCount: null,
+      },
     })
   })
 

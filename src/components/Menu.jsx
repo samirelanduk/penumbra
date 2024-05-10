@@ -173,7 +173,13 @@ const Menu = props => {
         />
       )}
       {error && <ErrorModal message={error} setShow={setError} />}
-      {showSettings && <SettingsModal setShow={setShowSettings} />}
+      {showSettings && (
+        <SettingsModal
+          setShow={setShowSettings}
+          document={document}
+          setDocument={setDocument}
+        />
+      )}
     </div>
   );
 };
