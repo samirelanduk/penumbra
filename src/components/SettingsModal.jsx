@@ -3,6 +3,50 @@ import PropTypes from "prop-types";
 import Modal from "./Modal";
 import { SettingsContext } from "@/contexts";
 import SegmentedControl from "./SegmentedControls";
+import Select from "./Select";
+import { Inter, Kanit, Merriweather, Mulish, Playfair_Display, Roboto_Slab } from "next/font/google";
+
+const mulish = Mulish({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mulish",
+  weight: ["400", "700"]
+})
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+  weight: ["400", "700"]
+})
+
+const kanit = Kanit({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-kanit",
+  weight: ["400", "700"]
+})
+
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-merriweather",
+  weight: ["400", "700"]
+})
+
+const robotoSlab = Roboto_Slab({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-slab",
+  weight: ["400", "700"]
+})
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-playfair-display",
+  weight: ["400", "700"]
+})
 
 const SettingsModal = props => {
 
@@ -23,6 +67,15 @@ const SettingsModal = props => {
     "Mulish",
     "Playfair Display",
     "Roboto Slab",
+  ]
+
+  const fontOptions = [
+    {label: "Inter", value: "Inter", className: `${inter.variable} font-inter`},
+    {label: "Kanit", value: "Kanit", className: `${kanit.variable} font-kanit`},
+    {label: "Merriweather", value: "Merriweather", className: `${merriweather.variable} font-merriweather`},
+    {label: "Mulish", value: "Mulish", className: `${mulish.variable} font-mulish`},
+    {label: "Playfair Display", value: "Playfair Display", className: `${playfairDisplay.variable} font-playfairdisplay`},
+    {label: "Roboto Slab", value: "Roboto Slab", className: `${robotoSlab.variable} font-robotoslab`},
   ]
 
   const textSizeOptions = [
@@ -64,15 +117,12 @@ const SettingsModal = props => {
 
         <div>
           <label className={labelClass}>Font</label>
-          <select
+          <Select
+            className="w-48"
             value={settings.font}
-            onChange={e => setSettings("font", e.target.value)}
-            className="w-full py-1.5 px-3 border rounded dark:bg-slate-900"
-          >
-            {fonts.map((font, i) => (
-              <option key={i}>{font}</option>
-            ))}
-          </select>
+            setValue={value => setSettings("font", value)}
+            options={fontOptions}
+          />
         </div>
 
         
@@ -123,15 +173,12 @@ const SettingsModal = props => {
             checked={document.settings.font !== null}
             onChange={() => setDocument({...document, settings: {...document.settings, font: document.settings.font === null ? settings.font : null}})}
           />
-          <select
+          <Select
+            className="w-48"
             value={document.settings.font || settings.font}
-            onChange={e => setDocument({...document, settings: {...document.settings, font: e.target.value}})}
-            className="w-full py-1.5 px-3 border rounded dark:bg-slate-900"
-          >
-            {fonts.map((font, i) => (
-              <option key={i}>{font}</option>
-            ))}
-          </select>
+            setValue={value => setDocument({...document, settings: {...document.settings, font: value}})}
+            options={fontOptions}
+          />
         </div>
 
         <div>

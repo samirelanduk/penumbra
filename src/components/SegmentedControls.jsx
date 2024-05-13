@@ -11,7 +11,7 @@ const SegmentedControl = props => {
   const valueLeft = ref.current?.children[valueIndex + 1]?.offsetLeft;
 
   return (
-    <div ref={ref} className={`relative bg-gray-300 w-fit h-7 flex rounded-lg px-0.5 text-xs font-bold ${disabled ? "opacity-40 pointer-events-none" : ""}`}>
+    <div ref={ref} className={`relative z-20 bg-gray-300 w-fit h-7 flex rounded-lg px-0.5 text-xs font-bold ${disabled ? "opacity-40 pointer-events-none" : ""}`}>
       <div
         className="bg-white absolute top-0.5 bottom-0.5 z-10 rounded-md transition-all duration-200 ease-in-out shadow dark:bg-slate-900"
         style={{width: valueWidth, left: valueLeft}}
