@@ -2,10 +2,19 @@ import { useContext } from "react";
 import PropTypes from "prop-types";
 import Modal from "./Modal";
 import { SettingsContext } from "@/contexts";
+import SegmentedControl from "./SegmentedControls";
 
 const SettingsModal = props => {
 
   const { setShow, document, setDocument } = props;
+
+  const [settings, setSettings] = useContext(SettingsContext);
+
+  const darkModeOptions = [
+    {label: "On", value: "on"},
+    {label: "Off", value: "off"},
+    {label: "Use System", value: "system"},
+  ]
 
   const fonts = [
     "Inter",
@@ -16,24 +25,23 @@ const SettingsModal = props => {
     "Roboto Slab",
   ]
 
-  const [settings, setSettings] = useContext(SettingsContext);
-
-  const toggleClass = "flex h-8 items-center";
-  const toggleOptionClass = "px-3 cursor-pointer h-full flex items-center justify-center transition-colors duration-200";
-  const selectedToggleOptionClass = `${toggleOptionClass} bg-slate-300 rounded-full`
-  const unselectedToggleOptionClass = `${toggleOptionClass} dark:text-slate-300`
-
-  const darkModeOptions = [
-    {name: "On", value: "on"},
-    {name: "Off", value: "off"},
-    {name: "Use System", value: "system"},
-  ]
-
   const textSizeOptions = [
-    {name: "Small", value: "small"},
-    {name: "Medium", value: "medium"},
-    {name: "Large", value: "large"},
+    {label: "Small", value: "small"},
+    {label: "Medium", value: "medium"},
+    {label: "Large", value: "large"},
   ]
+
+  const wordCountOptions = [
+    {label: "Show", value: true},
+    {label: "Hide", value: false},
+  ]
+
+  const characterCountOptions = [
+    {label: "Show", value: true},
+    {label: "Hide", value: false},
+  ]
+
+  const labelClass = "text-xs block mb-1 font-bold dark:text-slate-300";
 
   return (
     <Modal className="p-6 w-full max-w-xl">
@@ -45,27 +53,21 @@ const SettingsModal = props => {
 
 
         <div>
-          <label>Dark Mode</label>
-          <div className={toggleClass}>
-            {darkModeOptions.map((option, i) => (
-              <div
-                key={i}
-                className={option.value === settings.darkMode ? selectedToggleOptionClass : unselectedToggleOptionClass}
-                onClick={() => setSettings("darkMode", option.value)}
-              >
-                {option.name}
-              </div>
-            ))}
-          </div>
+          <label className={labelClass}>Dark Mode</label>
+          <SegmentedControl
+            options={darkModeOptions} 
+            value={settings.darkMode}
+            setValue={value => setSettings("darkMode", value)}
+          />
         </div>
 
 
         <div>
-          <label>Font</label>
+          <label className={labelClass}>Font</label>
           <select
             value={settings.font}
             onChange={e => setSettings("font", e.target.value)}
-            className="w-full py-1.5 px-3 mt-1.5 border rounded dark:bg-slate-900"
+            className="w-full py-1.5 px-3 border rounded dark:bg-slate-900"
           >
             {fonts.map((font, i) => (
               <option key={i}>{font}</option>
@@ -75,44 +77,47 @@ const SettingsModal = props => {
 
         
         <div>
-          <label>Text Size</label>
-          <div className={toggleClass}>
-            {textSizeOptions.map((option, i) => (
-              <div
-                key={i}
-                className={option.value === settings.textSize ? selectedToggleOptionClass : unselectedToggleOptionClass}
-                onClick={() => setSettings("textSize", option.value)}
-              >
-                {option.name}
-              </div>
-            ))}
-          </div>
+          <label className={labelClass}>Text Size</label>
+          <SegmentedControl
+            options={textSizeOptions} 
+            value={settings.textSize}
+            setValue={value => setSettings("textSize", value)}
+          />
         </div>
 
+
         <div className="flex gap-8">
-          <div className="flex gap-1">
-            <label htmlFor="showWordCount">Show Word Count</label>
-            <input
-              id="showWordCount"
-              type="checkbox"
-              checked={settings.showWordCount}
-              onChange={() => setSettings("showWordCount", !settings.showWordCount)}
+          <div>
+            <label
+              className={`${labelClass} cursor-pointer`}
+              onClick={() => setSettings("showWordCount", !settings.showWordCount)}
+            >
+              Word Count
+            </label>
+            <SegmentedControl
+              options={wordCountOptions} 
+              value={settings.showWordCount}
+              setValue={value => setSettings("showWordCount", value)}
             />
           </div>
-          <div className="flex gap-1">
-            <label htmlFor="showCharacterCount">Show Character Count</label>
-            <input
-              id="showCharacterCount"
-              type="checkbox"
-              checked={settings.showCharacterCount}
-              onChange={() => setSettings("showCharacterCount", !settings.showCharacterCount)}
+          <div>
+            <label
+              className={`${labelClass} cursor-pointer`}
+              onClick={() => setSettings("showCharacterCount", !settings.showCharacterCount)}
+            >
+              Character Count
+            </label>
+            <SegmentedControl
+              options={characterCountOptions} 
+              value={settings.showCharacterCount}
+              setValue={value => setSettings("showCharacterCount", value)}
             />
           </div>
         </div>
 
 
         <div>
-          <label>Font</label>
+          <label className={labelClass}>Font</label>
           <input
             type="checkbox"
             checked={document.settings.font !== null}
@@ -121,7 +126,7 @@ const SettingsModal = props => {
           <select
             value={document.settings.font || settings.font}
             onChange={e => setDocument({...document, settings: {...document.settings, font: e.target.value}})}
-            className="w-full py-1.5 px-3 mt-1.5 border rounded dark:bg-slate-900"
+            className="w-full py-1.5 px-3 border rounded dark:bg-slate-900"
           >
             {fonts.map((font, i) => (
               <option key={i}>{font}</option>
@@ -130,57 +135,60 @@ const SettingsModal = props => {
         </div>
 
         <div>
-          <label>Text Size</label>
+          <label className={labelClass}>Text Size</label>
           <input
             type="checkbox"
             checked={document.settings.textSize !== null}
             onChange={() => setDocument({...document, settings: {...document.settings, textSize: document.settings.textSize === null ? settings.textSize : null}})}
           />
-          <div className={toggleClass}>
-            {textSizeOptions.map((option, i) => (
-              <div
-                key={i}
-                className={option.value === (document.settings.textSize || settings.textSize) ? selectedToggleOptionClass : unselectedToggleOptionClass}
-                onClick={() => setDocument({...document, settings: {...document.settings, textSize: option.value}})}
-              >
-                {option.name}
-              </div>
-            ))}
-          </div>
+          <SegmentedControl
+            options={textSizeOptions} 
+            disabled={document.settings.textSize === null}
+            value={document.settings.textSize || settings.textSize}
+            setValue={value => setDocument({...document, settings: {...document.settings, textSize: value}})}
+          />
         </div>
 
         <div className="flex gap-8">
-          <div className="flex gap-1">
-            <label htmlFor="showWordCount">Show Word Count</label>
+          <div>
+            <label
+              className={`${labelClass} cursor-pointer`}
+              onClick={() => setSettings("showWordCount", !settings.showWordCount)}
+            >
+              Word Count
+            </label>
             <input
               type="checkbox"
               checked={document.settings.showWordCount !== null}
               onChange={() => setDocument({...document, settings: {...document.settings, showWordCount: document.settings.showWordCount === null ? settings.showWordCount : null}})}
             />
-            <input
-              id="showWordCount"
-              type="checkbox"
-              checked={document.settings.showWordCount === null ? settings.showWordCount : document.settings.showWordCount}
-              onChange={() => setDocument({...document, settings: {...document.settings, showWordCount: !document.settings.showWordCount}})}
+            <SegmentedControl
+              options={wordCountOptions} 
+              disabled={document.settings.showWordCount === null}
+              value={document.settings.showWordCount === null ? settings.showWordCount : document.settings.showWordCount}
+              setValue={value => setDocument({...document, settings: {...document.settings, showWordCount: value}})}
             />
           </div>
-          <div className="flex gap-1">
-            <label htmlFor="showCharacterCount">Show Character Count</label>
+          <div>
+            <label
+              className={`${labelClass} cursor-pointer`}
+              onClick={() => setSettings("showCharacterCount", !settings.showCharacterCount)}
+            >
+              Character Count
+            </label>
             <input
               type="checkbox"
               checked={document.settings.showCharacterCount !== null}
               onChange={() => setDocument({...document, settings: {...document.settings, showCharacterCount: document.settings.showCharacterCount === null ? settings.showCharacterCount : null}})}
             />
-            <input
-              id="showCharacterCount"
-              type="checkbox"
-              checked={document.settings.showCharacterCount === null ? settings.showCharacterCount : document.settings.showCharacterCount}
-              onChange={() => setDocument({...document, settings: {...document.settings, showCharacterCount: !document.settings.showCharacterCount}})}
+            <SegmentedControl
+              options={characterCountOptions} 
+              disabled={document.settings.showCharacterCount === null}
+              value={document.settings.showCharacterCount === null ? settings.showCharacterCount : document.settings.showCharacterCount}
+              setValue={value => setDocument({...document, settings: {...document.settings, showCharacterCount: value}})}
             />
           </div>
         </div>
-
-
       </div>
       <div onClick={() => setShow(false)} className="ml-auto w-fit cursor-pointer">Done</div>
     </Modal>
