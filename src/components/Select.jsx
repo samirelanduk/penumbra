@@ -4,7 +4,7 @@ import DownIcon from "@/images/down.svg";
 
 const Select = props => {
 
-  const { options, value, setValue } = props;
+  const { options, value, setValue, disabled } = props;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +18,7 @@ const Select = props => {
   const optionClass = "h-9 cursor-pointer flex items-center px-4 bg-white";
 
   return (
-    <div className={`relative ${props.className || ""}`}>
+    <div className={`relative ${disabled ? "opacity-40 pointer-events-none" : ""} ${props.className || ""}`}>
       <div
         className={`${optionClass} bg-white group flex border-slate-300 dark:border-slate-400 dark:bg-slate-800 ${isOpen ? "rounded-t border-t border-l border-r pb-px" : "rounded border"} ${selectedOption?.className || ""}`}
         onClick={() => setIsOpen(!isOpen)}
@@ -47,6 +47,7 @@ Select.propTypes = {
   options: PropTypes.array.isRequired,
   value: PropTypes.any.isRequired,
   setValue: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default Select;

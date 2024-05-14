@@ -60,15 +60,6 @@ const SettingsModal = props => {
     {label: "Use System", value: "system"},
   ]
 
-  const fonts = [
-    "Inter",
-    "Kanit",
-    "Merriweather",
-    "Mulish",
-    "Playfair Display",
-    "Roboto Slab",
-  ]
-
   const fontOptions = [
     {label: "Inter", value: "Inter", className: `${inter.variable} font-inter`},
     {label: "Kanit", value: "Kanit", className: `${kanit.variable} font-kanit`},
@@ -178,6 +169,7 @@ const SettingsModal = props => {
             value={document.settings.font || settings.font}
             setValue={value => setDocument({...document, settings: {...document.settings, font: value}})}
             options={fontOptions}
+            disabled={document.settings.font === null}
           />
         </div>
 
