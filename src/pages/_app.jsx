@@ -1,12 +1,7 @@
 import "@/index.css";
 import Head from "next/head";
-import { Mulish } from "next/font/google";
  
-const mulish = Mulish({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-mulish",
-})
+import { mulish } from "@/fonts";
 
 export default function App({ Component, pageProps }) {
 

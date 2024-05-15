@@ -15,7 +15,7 @@ const Select = props => {
     setIsOpen(false);
   }
 
-  const optionClass = "h-9 cursor-pointer flex items-center px-4 bg-white";
+  const optionClass = "h-9 cursor-pointer flex items-center px-4 bg-white text-sm sm:text-base";
 
   return (
     <div className={`relative ${disabled ? "opacity-40 pointer-events-none" : ""} ${props.className || ""}`}>
