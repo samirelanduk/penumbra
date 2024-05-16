@@ -7,7 +7,7 @@ import { makeDocument } from "@/utils";
 import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import { withPenumbraCommands } from "@/commands";
+import { withPenumbraCommands, withPenumbraShortcuts } from "@/commands";
 import { useWarnUnsavedChanges, useDocumentTitle, useSettings, useDarkMode } from "@/hooks";
 import { PreviewContext, SettingsContext } from "@/contexts";
 
@@ -16,7 +16,7 @@ const Penumbra = props => {
   const { preview } = props;
   
   const [document, setDocument] = useState(makeDocument());
-  const [editor] = useState(() => withReact(withPenumbraCommands(withHistory(createEditor()))));
+  const [editor] = useState(() => withReact(withPenumbraShortcuts(withPenumbraCommands(withHistory(createEditor())))));
   const [settings, setSettings] = useSettings();
 
   useWarnUnsavedChanges(document);

@@ -1,5 +1,5 @@
 import { Editor, Range , Transforms} from "slate";
-import { isBlockActive } from "./toolbar";
+import { isBlockActive, toggleComplexBlock } from "./toolbar";
 
 export const withPenumbraCommands = editor => {
 
@@ -26,3 +26,28 @@ export const withPenumbraCommands = editor => {
   
   return editor;
 };
+
+
+export const withPenumbraShortcuts = editor => {
+  const { insertText } = editor;
+  editor.insertText = text => {
+    insertText(text);
+    if (text === " " && isBlockActive(editor, "p")) {
+      if (editor.selection && Range.isCollapsed(editor.selection)) {
+        const [[pElement, path]] = Editor.nodes(editor, {
+          match: (n,path) => path.length === 1
+        });
+        if (pElement.children.length === 1 && pElement.children[0].text === "- ") {
+          Transforms.delete(editor, {
+            at: {
+              anchor: { path: [...path, 0], offset: 0 },
+              focus: { path: [...path, 0], offset: pElement.children[0].text.length }
+            }
+          });
+          toggleComplexBlock(editor, "ul", "li");
+        }   
+      }
+    }
+  };
+  return editor;
+}
