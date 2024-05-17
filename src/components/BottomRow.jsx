@@ -3,10 +3,13 @@ import { countWords } from "@/utils";
 import { plainText } from "@/serialize";
 import { useContext } from "react";
 import { SettingsContext } from "@/contexts";
+import { useSlate } from "slate-react";
 
 const BottomRow = props => {
 
   const { document } = props;
+
+  const editor = useSlate();
 
   const [{showWordCount, showCharacterCount},] = useContext(SettingsContext);
 
@@ -17,7 +20,7 @@ const BottomRow = props => {
 
   if (!showCc && !showWc) return <div className={className} />;
 
-  const text = plainText(document.slate);
+  const text = plainText(editor.children);
   const charCount = text.length;
   const wordCount = showWordCount ? countWords(text) : 0;
 
@@ -61,7 +64,7 @@ const BottomRow = props => {
 };
 
 BottomRow.propTypes = {
-  document: PropTypes.object
+  document: PropTypes.object.isRequired,
 };
 
 export default BottomRow;

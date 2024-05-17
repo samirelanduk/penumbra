@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import BottomRow from "@/components/BottomRow";
 import TextEditor from "@/components/TextEditor";
@@ -10,6 +10,8 @@ import { withHistory } from "slate-history";
 import { withPenumbraCommands, withPenumbraShortcuts } from "@/commands";
 import { useWarnUnsavedChanges, useDocumentTitle, useSettings, useDarkMode } from "@/hooks";
 import { PreviewContext, SettingsContext } from "@/contexts";
+import { Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
 
 const Penumbra = props => {
   
@@ -22,16 +24,17 @@ const Penumbra = props => {
   useWarnUnsavedChanges(document);
   useDocumentTitle(document);
 
-  const onChange = value => {
-    setDocument({ ...document, slate: value });
-  };
-
   const darkModeClass = useDarkMode(settings) ? "dark" : "";
+
+  useEffect(() => {
+    ReactEditor.focus(editor);
+    Transforms.select(editor, Editor.end(editor, []));
+  }, [editor]);
 
   return (
     <PreviewContext.Provider value={preview}>
       <SettingsContext.Provider value={[settings, setSettings]}>
-        <Slate editor={editor} initialValue={document.slate} onChange={onChange}>
+        <Slate editor={editor} initialValue={[{type: "p", children: [{ text: ""}]}]}>
           <div className={`h-full ${darkModeClass}`}>
             <div className={`flex h-full flex-col font-sans bg-[#FAF9F6] dark:bg-slate-800 dark:text-slate-200 ${preview ? "pt-2" : ""}`}>
               <TopRow document={document} setDocument={setDocument} />

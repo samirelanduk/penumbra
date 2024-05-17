@@ -6,11 +6,13 @@ import { saveFileAs } from "@/files";
 import { countWords } from "@/utils";
 import { ClipLoader } from "react-spinners";
 import { plainText } from "@/serialize";
+import { useSlate } from "slate-react";
 
 const EncryptModal = props => {
 
   const { setShow, document, setDocument } = props;
 
+  const editor = useSlate();
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,13 +21,13 @@ const EncryptModal = props => {
 
   const encryptClicked = async () => {
     setLoading(true);
-    const bytestring = await encrypt(document, password);
+    const bytestring = await encrypt({document, slate: editor.children}, password);
     const fileHandle = await saveFileAs(bytestring);
     if (!fileHandle) {
       setLoading(false);
       return;
     }
-    const text = plainText(document.slate);
+    const text = plainText(editor.children);
     setDocument({
       ...document,
       name: fileHandle.name,

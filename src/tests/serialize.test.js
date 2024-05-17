@@ -2,6 +2,10 @@ import { plainText } from "../serialize";
 
 describe("plainText", () => {
 
+  it("Returns empty string for null", async () => {
+    expect(plainText(undefined)).toEqual("");
+  })
+
   it("Returns empty string for empty document", async () => {
     const nodes = [];
     expect(plainText(nodes)).toEqual("");

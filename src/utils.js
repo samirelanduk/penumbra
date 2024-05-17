@@ -14,7 +14,6 @@ export const makeDocument = () => {
    */
   
   return {
-    slate: [{type: "p", children: [{ text: ""}]}],
     name: null,
     initialCharacterCount: 0,
     initialWordCount: 0,

@@ -43,7 +43,7 @@ const Menu = props => {
   }, [])
 
   const canOpen = browserSupported;
-  const text = plainText(document.slate);
+  const text = plainText(editor.children);
   const canSave = browserSupported && Boolean(document && document.fileHandle);
   const canSaveAs = browserSupported && Boolean(document) && text.length > 0;
   const canClose = browserSupported && Boolean(document && document.fileHandle);

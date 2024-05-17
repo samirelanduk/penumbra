@@ -40,12 +40,13 @@ const DecryptModal = props => {
     const text = plainText(document.slate);
     document.initialCharacterCount = text.length;
     document.initialWordCount = countWords(text);
+    const slate = document.slate;
+    delete document.slate;
     setDocument(document);
     setError(null);
     setLoading(false);
-    editor.children = document.slate;
+    editor.children = slate;
     setTimeout(() => {
-      editor.onChange(document.slate)
       ReactEditor.focus(editor);
       Transforms.select(editor, Editor.end(editor, []));
     }, 0);

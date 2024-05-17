@@ -35,7 +35,6 @@ describe("makeDocument", () => {
 
   it("Returns a document object with all fields", async () => {
     expect(makeDocument()).toEqual({
-      slate: [{type: "p", children: [{ text: ""}]}],
       name: null,
       initialCharacterCount: 0,
       initialWordCount: 0,
