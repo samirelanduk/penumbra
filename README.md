@@ -15,16 +15,26 @@ Currently only Chrome and Edge support this, though the feature is being impleme
 
 ```javascript
 {
-    slate: [{type: "p", children: [{ text: "Updated text which values below won't match."}]}],
     name: "mynotes.enc", // Blank unless opened/saved
     initialCharacterCount: 100, // Blank unless opened/saved
     initialWordCount: 25 // Blank unless opened/saved
     password: "xxx", // Removed before encrypting/saving
     fileHandle: {...}, // Removed before encrypting/saving
+    settings: {...}, // Document-specific settings
 }
 ```
 
 ## Changelog
+
+### v0.6.0
+
+*19 May, 2024*
+
+- Added global settings.
+- Added document-specific settings.
+- Added settings interface.
+- Added bullet list sshortcut.
+- Removed needless top-level component re-rendering.
 
 ### v0.5.0
 
