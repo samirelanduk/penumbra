@@ -116,8 +116,7 @@ This will fire every time the editor's `children` attribute changes, and gets pa
 ## Custom Penumbra Elements
 
 The only attributes that elements and text nodes are required to have by their interfaces are `children` and `text` respectively.
-You can give them other attributes though, and by convention the way to provide custom formatting etc.
-is through these attributes.
+You can give them other attributes though, and by convention the way to provide custom formatting etc. is through these attributes.
 
 In Penumbra, text nodes can have `italics`, `bold`, `underline` and `strikethrough` boolean attributes for example, to indicate what formatting should be applied to them.
 Note that slate.js does not come with any logic for what to do with these attributes, and they could be called anything - the `Editable` needs to be told what to do with them when rendering (see below).
@@ -233,6 +232,9 @@ New characters are added to the end of the currently selected text node etc, the
 For the most part, Penumbra leaves these defaults in place.
 It does however override the `insertBreak` method via a custom plugin, so that if the cursor is at the end of a heading, the next element created is a paragraph, not a new heading.
 
+It also responds to certain patterns in text to modify the current block type:
+- Typing "- " will make the current block a bullet point, using the functions defined for the toolbar.
+
 ## Preview Mode
 
 The full Penumbra text interface is provided as the `Penumbra` element, and the home page just renders this.
@@ -244,17 +246,38 @@ Various parts of the interface behave differently when `preview` is true - the t
 ## Document Info
 
 In addition to the `editor` state, the `Penumbra` component defines a `document` state object, for tracking information about the current document.
-It contains the current number of words and characters, the document name, the password (see below), and a copy of the editor's `children` nodes.
+It contains the current number of words and characters, the document name, a settings object for document-specific settings (see below) and the password (see below).
 
-This is used to display word counts etc.
-at the bottom of the screen, and to keep track of last save etc.
+This is used to display word counts etc. at the bottom of the screen, and to keep track of last save etc.
+
+## Settings
+
+Penumbra has settings for the following:
+
+- Whether dark mode should be on, off, or default to the system preferences.
+- The font used in documents.
+- The text size in documents (small, medium or large).
+- Whether to show character counts.
+- Whether to show word counts.
+
+These are stored in a single object that is initialised on first render.
+It looks in local storage to see if any values are defined there, and if not creates defaults.
+This object is then added to a context provider so that they can be accessed wherever they need to be.
+
+There is a settings modal which modifies these values.
+Whenever a value is changed, Penumbra also updates the copy of the settings in local storage, so that next time the app is opened the change will be persisted.
+It can't *only* use local storage however, as the app would not re-render if only local storage changed.
+
+Many of these settings can also be set at the document level.
+The `document` object has a `settings` attribute with its own values (defaults to `null` which means to use global settings).
+Any part of the app that uses settings will first look for a value here before checking the global settings.
 
 ## Saving/Loading
 
 When saving a never previously saved document, or when 'saving as' a new document:
 
 1. The user is prompted to provide a new password.
-2. A copy of the `document` object is made, and the `password` and `fileHandle` attributes are removed from this copy.
+2. A copy of the `document` object is made, the `password` and `fileHandle` attributes are removed from this copy, and the editor's `children` contents are added
 3. This object is JSON stringified, and this string is encrypted to an `ArrayBuffer` object using the `window.crypto` API, via the password given by the user.
 4. This encrypted data is prepended with header information such as the salt and IV needed to decrypt, the version of Penumbra used, and the locations of the various pieces of information within the final `Unit8Array` bytestring.
 5. A `fileHandle` object is created by prompting the user to select a location on disk, and the bytestring saved to that location.
@@ -269,5 +292,5 @@ When opening an encrypted file:
 2. The user is asked for the password for the file they have just opened.
 3. A blank `document` object is initialised.
 4. The bytestring is decrypted into a `document` object (the reverse of the above) and the two `document` objects merged.
-5. The `document` is updated with password and file handles.
+5. The `document` is updated with password and file handles, and the copy of the editor's nodes is removed.
 6. The `editor` object's `onChange` method is called with the new nodes in the `document`'s `slate` attribute (as the text editor doesn't re-render just because `document` changes).
