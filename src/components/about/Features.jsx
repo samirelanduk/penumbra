@@ -29,9 +29,9 @@ const Features = () => {
       description: "Penumbra uses Slate.js to provide a rich text editor with support for headings, formatting, and more.",
     },
     {
-      title: "Export to Markdown",
+      title: "File System Access",
       Icon: ExportIcon,
-      description: "In addition to its own encrypted format, Penumbra can export your notes to Markdown, so you can use them in other apps.",
+      description: "Penumbra uses the File System Access API to save your notes directly to your device (where supported).",
     },
     {
       title: "Open Source",
