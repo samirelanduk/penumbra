@@ -10,7 +10,6 @@ import { plainText } from "@/serialize";
 import { ReactEditor, useSlate } from "slate-react";
 import { Editor, Transforms } from "slate";
 import BrowserWarning from "./BrowserWarning";
-import Link from "next/link";
 import SettingsModal from "./SettingsModal";
 
 const Menu = props => {
@@ -89,7 +88,7 @@ const Menu = props => {
   }
 
   const saveClicked = async () => {
-    const bytestring = await encrypt(document, document.password);
+    const bytestring = await encrypt({...document, slate: editor.children}, document.password);
     await saveFile(document.fileHandle, bytestring);
     const text = plainText(document.slate);
     setDocument({
