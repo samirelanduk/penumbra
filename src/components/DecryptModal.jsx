@@ -22,7 +22,8 @@ const DecryptModal = props => {
 
   const editor = useSlate();
 
-  const decryptClicked = async () => {
+  const onSubmit = async e => {
+    e.preventDefault();
     setLoading(true);
     let document = makeDocument();
     try {
@@ -63,7 +64,7 @@ const DecryptModal = props => {
       <div className="text-lg mb-4 border-b border-blue-100 py-4 px-6 text-gray-800 dark:text-slate-300 dark:border-blue-900">
         Decrypt {filename}
       </div>
-      <div className="px-6 pt-2 pb-6">
+      <form onSubmit={onSubmit} className="px-6 pt-2 pb-6">
         <input
           ref={ref}
           autoComplete="off"
@@ -78,7 +79,7 @@ const DecryptModal = props => {
         )}
         <div className={`flex ${width} gap-4 justify-between`}>
           <button
-            onClick={decryptClicked}
+            type="submit"
             className={`${decryptButtonClass} ${loading ? "pointer-events-none" : ""}`}
           >
             {loading ? <ClipLoader color="white" size={18} speedMultiplier={2} /> : "Decrypt"}
@@ -87,7 +88,7 @@ const DecryptModal = props => {
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };

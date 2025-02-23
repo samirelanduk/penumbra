@@ -19,7 +19,8 @@ const EncryptModal = props => {
 
   const canEncrypt = Boolean(password) && password === confirmPassword;
 
-  const encryptClicked = async () => {
+  const onSubmit = async e => {
+    e.preventDefault();
     setLoading(true);
     const bytestring = await encrypt({document, slate: editor.children}, password);
     const fileHandle = await saveFileAs(bytestring);
@@ -52,7 +53,7 @@ const EncryptModal = props => {
       <div className="text-lg mb-4 border-b border-orange-100 py-4 px-6 text-gray-800 dark:text-slate-300 dark:border-orange-900">
         Encrypting as new file
       </div>
-      <div className="px-6 pt-2 pb-6">
+      <form onSubmit={onSubmit} className="px-6 pt-2 pb-6">
         <div className="flex flex-col">
           <label htmlFor="password" className={labelClass}>Password</label>
           <input
@@ -75,7 +76,7 @@ const EncryptModal = props => {
         </div>
         <div className={`flex ${width} gap-4 justify-between`}>
           <button
-            onClick={encryptClicked}
+            type="submit"
             className={`${encryptButtonClass} ${canEncrypt && !loading ? "" : "opacity-50 pointer-events-none"}`}
             disabled={!canEncrypt}
           >
@@ -85,7 +86,7 @@ const EncryptModal = props => {
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };
